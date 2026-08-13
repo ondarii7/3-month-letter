@@ -765,5 +765,18 @@
   }
 </script>
 
+<script>
+  (function(){
+    const vinyl = document.getElementById('vinyl');
+    const spotifyUrl = "https://open.spotify.com/track/70WSsjbEWvU96Ia9AuO9w3";
+    if (vinyl) {
+      vinyl.style.cursor = "pointer";
+      vinyl.addEventListener('click', function(e){
+        // Open Spotify link in new tab
+        window.open(spotifyUrl, '_blank');
+      });
+    }
+  })();
+</script>
 </body>
 </html>
