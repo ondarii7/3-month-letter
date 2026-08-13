@@ -496,6 +496,9 @@
     .song-section.hidden { display: none; }
     .final-section.hidden { display: none; }
 
+    /* Confetti canvas (full-screen, pointer-events none) */
+    .confetti-canvas { position: fixed; inset: 0; z-index: 220; pointer-events: none; }
+
     /* Big reveal button styling */
     #reveal-song-btn {
       padding: 18px 44px;
@@ -703,6 +706,8 @@
     if (entered === correct) {
       const screen = document.getElementById("password-screen");
       screen.classList.add("hidden");
+      // short confetti burst on unlock
+      launchConfetti();
       setTimeout(() => {
         screen.style.display = "none";
         document.getElementById("letter-screen").style.display = "block";
@@ -751,6 +756,73 @@
       { threshold: 0.12 }
     );
     elements.forEach(el => observer.observe(el));
+  }
+
+  // Simple confetti effect (canvas). Creates a short burst and removes the canvas.
+  function launchConfetti() {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.className = 'confetti-canvas';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const colors = ['#ff4d6d','#ffd166','#06d6a0','#4d8bfd','#9a6cff'];
+      const pieces = [];
+      const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 8000));
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * -canvas.height * 0.2,
+          w: 6 + Math.random() * 8,
+          h: 8 + Math.random() * 10,
+          vx: (Math.random() - 0.5) * 2.4,
+          vy: 2 + Math.random() * 3.5,
+          r: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          tilt: Math.random() * 0.6 - 0.3
+        });
+      }
+
+      let t0 = performance.now();
+      function frame(now) {
+        const dt = (now - t0) / 1000; t0 = now;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for (let p of pieces) {
+          p.x += p.vx * (1 + Math.random() * 0.6);
+          p.y += p.vy * (1 + Math.random() * 0.6);
+          p.vy += 0.02; // gravity
+          p.r += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.r);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2 + p.tilt*6, -p.h/2, p.w, p.h);
+          ctx.restore();
+        }
+        // stop after ~1.2s and fade out
+        if (now - startTime < 1200) {
+          anim = requestAnimationFrame(frame);
+        } else {
+          // fade and remove
+          canvas.style.transition = 'opacity 500ms ease';
+          canvas.style.opacity = '0';
+          setTimeout(() => { try { cancelAnimationFrame(anim); if (canvas.parentNode) canvas.parentNode.removeChild(canvas); } catch(e){} }, 500);
+        }
+      }
+      let anim; const startTime = performance.now();
+      anim = requestAnimationFrame(frame);
+
+      // handle resize while running
+      const onResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+      window.addEventListener('resize', onResize);
+      // cleanup after finished
+      setTimeout(() => { window.removeEventListener('resize', onResize); }, 2000);
+    } catch (e) {
+      // fail silently
+      console.warn('confetti failed', e);
+    }
   }
 
   /* SONG */
