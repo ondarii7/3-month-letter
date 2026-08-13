@@ -368,8 +368,8 @@
 
   .needle {
     position: absolute;
-    right: -3px; top: 47px;
-    width: 110px; height: 5px;
+    right: -3px; top: 95px; /* moved lower */
+    width: 110px; height: 8px;
     border-radius: 5px;
     background: #888;
     transform-origin: right center;
@@ -492,9 +492,54 @@
 
   .final-name { margin-top: 12px !important; color: var(--red) !important; }
 
+  /* Typewriter */
+  .typing::after {
+    content: '|';
+    display: inline-block;
+    margin-left: 6px;
+    opacity: 0.9;
+    animation: blink 1s steps(2, start) infinite;
+  }
+  @keyframes blink { to { opacity: 0 } }
+
   /* REVEALS */
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+    .song-section.hidden { display: none; }
+    .final-section.hidden { display: none; }
+
+    /* Confetti canvas (full-screen, pointer-events none) */
+    .confetti-canvas { position: fixed; inset: 0; z-index: 220; pointer-events: none; }
+
+    /* Big reveal button styling */
+    #reveal-song-btn {
+      padding: 18px 44px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), var(--red-bright));
+      color: white;
+      border: none;
+      font-family: "Bangers", cursive;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      box-shadow: 0 14px 40px rgba(220,20,60,.25);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .2s ease;
+    }
+
+    #reveal-song-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 20px 50px rgba(220,20,60,.32); cursor: pointer; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Timeline styles */
+        .timeline-card { max-width: 860px; margin: 26px auto; padding: 24px; border-radius: 14px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008)); border: 1px solid #1f1f1f; box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+        .timeline-card { --timeline-date-width: 150px; }
+        .timeline-title { color: var(--red); font-family: "Bangers", cursive; font-size: 1.25rem; margin-bottom: 14px; }
+        .timeline-list { list-style: none; padding-left: 0; color: #ddd; position: relative; }
+        .timeline-list::before { content: ''; position: absolute; left: calc(var(--timeline-date-width) + 28px); top: 22px; bottom: 22px; width: 2px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+        .timeline-list li { padding: 18px 0; position: relative; display: flex; gap: 20px; align-items: flex-start; opacity: 0; transform: translateY(6px); transition: opacity .4s ease, transform .4s ease; }
+        .timeline-list li.visible { opacity: 1; transform: translateY(0); }
+        .timeline-list li::before { content: ''; position: absolute; left: calc(var(--timeline-date-width) + 22px); top: 26px; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, var(--red)); box-shadow: 0 6px 18px rgba(0,0,0,.4); border: 3px solid rgba(255,255,255,0.03); }
+        .timeline-list li strong { color: #fff; display: block; width: var(--timeline-date-width); font-weight: 700; flex-shrink: 0; }
+        .timeline-content { color: #ddd; flex:1; padding-left: 6px; }
+        .timeline-list li:hover { transform: translateY(-4px); }
 
   /* MOBILE */
   @media (max-width: 600px) {
@@ -505,7 +550,7 @@
     .record-area { width: 300px; height: 315px; }
     .vinyl { width: 245px; height: 245px; }
     .record-label { width: 113px; height: 113px; }
-    .needle { right: 0; top: 35px; width: 85px; }
+    .needle { right: 0; top: 65px; width: 85px; }
     .youtube-box iframe { height: 200px; }
   }
 </style>
@@ -582,13 +627,15 @@
       </p>
 
       <p>I love you so, so much &lt;3</p>
-
-      <span class="letter-heart">&lt;3</span>
     </article>
   </main>
 
   <!-- OUR SONG -->
-  <section class="song-section reveal">
+  <div style="text-align:center; margin: 28px 0 8px; display:flex; gap:12px; justify-content:center;">
+    <button id="skip-type-btn" class="song-play-btn" style="display:none;">SKIP</button>
+    <button id="reveal-song-btn" class="song-play-btn" style="display:none;">REVEAL OUR SONG</button>
+  </div>
+  <section id="song-section" class="song-section hidden">
 
     <div class="song-kicker">OUR SONG</div>
     <h2 class="song-title">light</h2>
@@ -619,6 +666,7 @@
       <div class="needle">
         <div class="needle-head"></div>
       </div>
+
     </div>
 
     <p class="song-message">
@@ -646,10 +694,31 @@
       </div>
     </div>
 
+    <div style="text-align:center; margin: 22px 0 8px;">
+      <button id="show-timeline-btn" class="song-play-btn">VIEW TIMELINE</button>
+    </div>
+
+    <section id="timeline-section" class="song-section hidden">
+      <div class="timeline-card reveal">
+        <h3 class="timeline-title">Our Timeline</h3>
+        <ul class="timeline-list">
+          <li><strong>Aug 11, 2025</strong><div class="timeline-content">Met at the PAM orientation</div></li>
+          <li><strong>Aug 13, 2025</strong><div class="timeline-content">Met in 7th period Ms. Foster's class</div></li>
+          <li><strong>Aug 27, 2025</strong><div class="timeline-content">Messaged on Instagram for the first time</div></li>
+          <li><strong>Feb 2026</strong><div class="timeline-content">Started talking a lot more</div></li>
+          <li><strong>May 7, 2026</strong><div class="timeline-content">Held hands for the first time</div></li>
+          <li><strong>May 9, 2026</strong><div class="timeline-content">First "I love you"</div></li>
+          <li><strong>May 13, 2026</strong><div class="timeline-content">Started dating</div></li>
+          <li><strong>May 16, 2026</strong><div class="timeline-content">Volunteered at the play together</div></li>
+          <li><strong>June 10, 2026</strong><div class="timeline-content">One month anniversary and volunteered at graduation</div></li>
+        </ul>
+      </div>
+    </section>
+
   </section>
 
   <!-- FINAL -->
-  <section class="final-section reveal">
+  <section id="final-section" class="final-section hidden">
     <h2>HAPPY THREE MONTHS</h2>
 
     <p>
@@ -661,8 +730,6 @@
       Whatever the future ends up looking like,
       I'm really glad you're part of it.
     </p>
-
-    <div class="final-heart">&lt;3</div>
     <p class="final-name">— Caleb</p>
   </section>
 
@@ -685,12 +752,16 @@
     if (entered === correct) {
       const screen = document.getElementById("password-screen");
       screen.classList.add("hidden");
+      // short confetti burst on unlock
+      launchConfetti();
       setTimeout(() => {
         screen.style.display = "none";
         document.getElementById("letter-screen").style.display = "block";
         initializeRevealAnimations();
+        // start typewriter on the first message once visible
+        startTypewriter();
         window.scrollTo({ top: 0, behavior: "instant" });
-      }, 800);
+            }, 450);
     } else {
       error.textContent = "that's not it, Isabel. try again.";
       input.style.borderColor = "#ff5874";
@@ -735,7 +806,76 @@
     elements.forEach(el => observer.observe(el));
   }
 
+  // Simple confetti effect (canvas). Creates a short burst and removes the canvas.
+  function launchConfetti() {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.className = 'confetti-canvas';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const colors = ['#ff4d6d','#ffd166','#06d6a0','#4d8bfd','#9a6cff'];
+      const pieces = [];
+            const count = Math.min(40, Math.floor((canvas.width * canvas.height) / 14000));
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+                y: Math.random() * -canvas.height * 0.12,
+                w: 6 + Math.random() * 6,
+                h: 8 + Math.random() * 6,
+                vx: (Math.random() - 0.5) * 2.6,
+                vy: 2 + Math.random() * 3.2,
+          r: Math.random() * Math.PI,
+                vr: (Math.random() - 0.5) * 0.25,
+          color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: Math.random() * 0.5 - 0.25
+        });
+      }
+
+      let t0 = performance.now();
+      function frame(now) {
+        const dt = (now - t0) / 1000; t0 = now;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for (let p of pieces) {
+                p.x += p.vx * (1 + Math.random() * 0.4);
+                p.y += p.vy * (1 + Math.random() * 0.4);
+                p.vy += 0.03; // gravity slightly stronger for faster fall
+          p.r += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.r);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2 + p.tilt*6, -p.h/2, p.w, p.h);
+          ctx.restore();
+        }
+              // stop after ~800ms and fade out quickly
+              if (now - startTime < 800) {
+          anim = requestAnimationFrame(frame);
+        } else {
+          // fade and remove
+                canvas.style.transition = 'opacity 300ms ease';
+          canvas.style.opacity = '0';
+                setTimeout(() => { try { cancelAnimationFrame(anim); if (canvas.parentNode) canvas.parentNode.removeChild(canvas); } catch(e){} }, 300);
+        }
+      }
+      let anim; const startTime = performance.now();
+      anim = requestAnimationFrame(frame);
+
+      // handle resize while running
+      const onResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+      window.addEventListener('resize', onResize);
+      // cleanup after finished
+            setTimeout(() => { window.removeEventListener('resize', onResize); }, 1500);
+    } catch (e) {
+      // fail silently
+      console.warn('confetti failed', e);
+    }
+  }
+
   /* SONG */
+  /* reveal sound removed */
+
   let songStarted = false;
 
   function startSong() {
@@ -761,9 +901,151 @@
     // Smooth scroll to player
     setTimeout(() => {
       box.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 200);
+    }, 30);
+  }
+
+  // Typewriter setup for the first message (letter-card)
+  let _typewriterInitialized = false;
+  function prepareTypewriter() {
+    if (_typewriterInitialized) return;
+    _typewriterInitialized = true;
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const paras = Array.from(first.querySelectorAll('p'));
+    paras.forEach(p => {
+      p.dataset.original = p.textContent.trim();
+      p.textContent = '';
+    });
+  }
+
+  let typingActive = false;
+  let _currentIv = null;
+
+  function completeTypewriter() {
+    typingActive = false;
+    if (_currentIv) { clearInterval(_currentIv); _currentIv = null; }
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const paras = Array.from(first.querySelectorAll('p'));
+    paras.forEach(p => { p.textContent = p.dataset.original || p.textContent; p.classList.remove('typing'); });
+    const skipBtn = document.getElementById('skip-type-btn');
+    if (skipBtn && skipBtn.parentNode) skipBtn.parentNode.removeChild(skipBtn);
+    const revealBtn = document.getElementById('reveal-song-btn');
+    if (revealBtn) revealBtn.style.display = '';
+  }
+
+  async function startTypewriter() {
+    prepareTypewriter();
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const skipBtn = document.getElementById('skip-type-btn');
+    const revealBtn = document.getElementById('reveal-song-btn');
+    if (skipBtn) { skipBtn.style.display = 'inline-block'; skipBtn.onclick = completeTypewriter; }
+    typingActive = true;
+    const paras = Array.from(first.querySelectorAll('p'));
+    for (let p of paras) {
+      p.classList.add('typing');
+      const text = p.dataset.original || '';
+      await new Promise(res => {
+        let i = 0;
+          const speed = 8 + Math.random() * 10; // faster: 8-18 ms per char
+        _currentIv = setInterval(() => {
+          p.textContent += text.charAt(i);
+          i++;
+            if (i >= text.length) { clearInterval(_currentIv); _currentIv = null; p.classList.remove('typing'); setTimeout(res, 80); }
+        }, speed);
+      });
+      if (!typingActive) break;
+    }
+    // finalize if not already completed
+    completeTypewriter();
+  }
+
+  // Reveal button logic
+  const revealBtn = document.getElementById('reveal-song-btn');
+  const songSection = document.getElementById('song-section');
+  if (revealBtn && songSection) {
+    revealBtn.addEventListener('click', () => {
+      revealBtn.disabled = true;
+      // Animate button out then hide it
+      const outAnim = revealBtn.animate(
+        [
+          { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(1.06)', opacity: 0 }
+        ],
+              { duration: 160, easing: 'ease' }
+      );
+      outAnim.onfinish = () => {
+        revealBtn.style.display = 'none';
+      };
+
+      // Unhide and animate the song section
+      songSection.classList.remove('hidden');
+      songSection.classList.add('reveal');
+      requestAnimationFrame(() => {
+        songSection.classList.add('visible');
+        songSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      // Start vinyl spinning on reveal
+      const vinyl = document.getElementById('vinyl');
+      if (vinyl) {
+        vinyl.classList.add('playing');
+      }
+
+      });
+    }
+
+  // Timeline button logic
+  const timelineBtn = document.getElementById('show-timeline-btn');
+  const timelineSection = document.getElementById('timeline-section');
+  if (timelineBtn && timelineSection) {
+    timelineBtn.addEventListener('click', () => {
+      timelineBtn.disabled = true;
+      const out = timelineBtn.animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(1.06)', opacity: 0 }
+      ], { duration: 140, easing: 'ease' });
+      out.onfinish = () => { timelineBtn.style.display = 'none'; };
+
+      timelineSection.classList.remove('hidden');
+      timelineSection.classList.add('reveal');
+      requestAnimationFrame(() => {
+            timelineSection.classList.add('visible');
+            timelineSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // animate timeline items in sequence
+            const items = timelineSection.querySelectorAll('.timeline-list li');
+            items.forEach((li, idx) => {
+              setTimeout(() => li.classList.add('visible'), idx * 50);
+            });
+      });
+
+      // also reveal the final message with the timeline (after items animate)
+      const final = document.getElementById('final-section');
+      if (final) {
+            setTimeout(() => {
+              final.classList.remove('hidden');
+              final.classList.add('reveal');
+              requestAnimationFrame(() => final.classList.add('visible'));
+            }, 50 * (Math.min(10, timelineSection.querySelectorAll('.timeline-list li').length) + 1));
+      }
+    });
   }
 </script>
 
+<script>
+  (function(){
+    const vinyl = document.getElementById('vinyl');
+    const spotifyUrl = "https://open.spotify.com/track/70WSsjbEWvU96Ia9AuO9w3";
+    if (vinyl) {
+      vinyl.style.cursor = "pointer";
+      vinyl.addEventListener('click', function(e){
+        // Open Spotify link in new tab
+        window.open(spotifyUrl, '_blank');
+      });
+    }
+  })();
+</script>
 </body>
 </html>
