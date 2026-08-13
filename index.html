@@ -528,6 +528,13 @@
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* Timeline styles */
+        .timeline-card { max-width: 720px; margin: 26px auto; padding: 22px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid #222; }
+        .timeline-title { color: var(--red); font-family: "Bangers", cursive; font-size: 1.2rem; margin-bottom: 10px; }
+        .timeline-list { list-style: none; padding-left: 0; color: #ddd; }
+        .timeline-list li { padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.03); }
+        .timeline-list li strong { color: #fff; display: inline-block; width: 170px; font-weight: 700; }
+
   /* MOBILE */
   @media (max-width: 600px) {
     .password-spider { font-size: 5rem; }
@@ -652,6 +659,7 @@
       <div class="needle">
         <div class="needle-head"></div>
       </div>
+
     </div>
 
     <p class="song-message">
@@ -678,6 +686,27 @@
         <a href="https://open.spotify.com/track/70WSsjbEWvU96Ia9AuO9w3" target="_blank" class="open-link">♫ Open in Spotify</a>
       </div>
     </div>
+
+    <div style="text-align:center; margin: 22px 0 8px;">
+      <button id="show-timeline-btn" class="song-play-btn">VIEW TIMELINE</button>
+    </div>
+
+    <section id="timeline-section" class="song-section hidden">
+      <div class="timeline-card reveal">
+        <h3 class="timeline-title">Our Timeline</h3>
+        <ul class="timeline-list">
+          <li><strong>August 11, 2025</strong> — Met at the PAM orientation</li>
+          <li><strong>August 13, 2025</strong> — Met in 7th period Ms. Foster's class</li>
+          <li><strong>August 27, 2025</strong> — Messaged on Instagram for the first time</li>
+          <li><strong>February 2026</strong> — Started talking a lot more</li>
+          <li><strong>May 7, 2026</strong> — Held hands for the first time</li>
+          <li><strong>May 9, 2026</strong> — First "I love you"</li>
+          <li><strong>May 13, 2026</strong> — Started dating</li>
+          <li><strong>May 16, 2026</strong> — Volunteered at the play together</li>
+          <li><strong>June 10, 2026</strong> — One month anniversary and volunteered at graduation</li>
+        </ul>
+      </div>
+    </section>
 
   </section>
 
@@ -722,6 +751,8 @@
         screen.style.display = "none";
         document.getElementById("letter-screen").style.display = "block";
         initializeRevealAnimations();
+        // start typewriter on the first message once visible
+        startTypewriter();
         window.scrollTo({ top: 0, behavior: "instant" });
       }, 800);
     } else {
@@ -866,45 +897,37 @@
     }, 200);
   }
 
-  // Typewriter setup for final message
+  // Typewriter setup for the first message (letter-card)
   let _typewriterInitialized = false;
   function prepareTypewriter() {
     if (_typewriterInitialized) return;
     _typewriterInitialized = true;
-    const final = document.getElementById('final-section');
-    if (!final) return;
-    const paras = Array.from(final.querySelectorAll('p')).filter(p => !p.classList.contains('final-name'));
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const paras = Array.from(first.querySelectorAll('p'));
     paras.forEach(p => {
       p.dataset.original = p.textContent.trim();
       p.textContent = '';
     });
-    const name = final.querySelector('.final-name');
-    if (name) name.style.opacity = '0';
   }
 
   async function startTypewriter() {
     prepareTypewriter();
-    const final = document.getElementById('final-section');
-    if (!final) return;
-    const paras = Array.from(final.querySelectorAll('p')).filter(p => !p.classList.contains('final-name'));
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const paras = Array.from(first.querySelectorAll('p'));
     for (let p of paras) {
       p.classList.add('typing');
       const text = p.dataset.original || '';
       await new Promise(res => {
         let i = 0;
-        const speed = 30 + Math.random() * 25; // ms per char
+        const speed = 20 + Math.random() * 30; // ms per char
         const iv = setInterval(() => {
           p.textContent += text.charAt(i);
           i++;
-          if (i >= text.length) { clearInterval(iv); p.classList.remove('typing'); setTimeout(res, 300); }
+          if (i >= text.length) { clearInterval(iv); p.classList.remove('typing'); setTimeout(res, 200); }
         }, speed);
       });
-    }
-    const name = final.querySelector('.final-name');
-    if (name) {
-      name.style.transition = 'opacity 500ms ease, transform 500ms ease';
-      name.style.opacity = '1';
-      name.style.transform = 'translateY(0)';
     }
   }
 
@@ -946,13 +969,38 @@
         setTimeout(() => {
           final.classList.remove('hidden');
           final.classList.add('reveal');
-            requestAnimationFrame(() => {
-              final.classList.add('visible');
-              // start typewriter after final becomes visible
-              startTypewriter();
-            });
-          }, 600);
-        }
+            requestAnimationFrame(() => { final.classList.add('visible'); });
+                }, 600);
+              }
+      });
+    }
+
+  // Timeline button logic
+  const timelineBtn = document.getElementById('show-timeline-btn');
+  const timelineSection = document.getElementById('timeline-section');
+  if (timelineBtn && timelineSection) {
+    timelineBtn.addEventListener('click', () => {
+      timelineBtn.disabled = true;
+      const out = timelineBtn.animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(1.06)', opacity: 0 }
+      ], { duration: 280, easing: 'ease' });
+      out.onfinish = () => { timelineBtn.style.display = 'none'; };
+
+      timelineSection.classList.remove('hidden');
+      timelineSection.classList.add('reveal');
+      requestAnimationFrame(() => {
+            timelineSection.classList.add('visible');
+            timelineSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      // also reveal the final message with the timeline
+      const final = document.getElementById('final-section');
+      if (final) {
+            final.classList.remove('hidden');
+            final.classList.add('reveal');
+            requestAnimationFrame(() => final.classList.add('visible'));
+      }
     });
   }
 </script>
