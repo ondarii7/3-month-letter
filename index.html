@@ -494,6 +494,24 @@
 
   /* REVEALS */
     .song-section.hidden { display: none; }
+    .final-section.hidden { display: none; }
+
+    /* Big reveal button styling */
+    #reveal-song-btn {
+      padding: 18px 44px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), var(--red-bright));
+      color: white;
+      border: none;
+      font-family: "Bangers", cursive;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      box-shadow: 0 14px 40px rgba(220,20,60,.25);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .2s ease;
+    }
+
+    #reveal-song-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 20px 50px rgba(220,20,60,.32); cursor: pointer; }
+
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -651,7 +669,7 @@
   </section>
 
   <!-- FINAL -->
-  <section class="final-section reveal">
+  <section id="final-section" class="final-section hidden">
     <h2>HAPPY THREE MONTHS</h2>
 
     <p>
@@ -770,7 +788,18 @@
   if (revealBtn && songSection) {
     revealBtn.addEventListener('click', () => {
       revealBtn.disabled = true;
-      revealBtn.style.opacity = '0.6';
+      // Animate button out then hide it
+      const outAnim = revealBtn.animate(
+        [
+          { transform: 'scale(1)', opacity: 1 },
+          { transform: 'scale(1.08)', opacity: 0 }
+        ],
+        { duration: 300, easing: 'ease' }
+      );
+      outAnim.onfinish = () => {
+        revealBtn.style.display = 'none';
+      };
+
       // Unhide and animate the song section
       songSection.classList.remove('hidden');
       songSection.classList.add('reveal');
@@ -778,6 +807,16 @@
         songSection.classList.add('visible');
         songSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+
+      // Reveal the final section after a short delay
+      const final = document.getElementById('final-section');
+      if (final) {
+        setTimeout(() => {
+          final.classList.remove('hidden');
+          final.classList.add('reveal');
+          requestAnimationFrame(() => final.classList.add('visible'));
+        }, 600);
+      }
     });
   }
 </script>
