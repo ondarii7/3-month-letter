@@ -552,6 +552,14 @@
     .record-label { width: 113px; height: 113px; }
     .needle { right: 0; top: 65px; width: 85px; }
     .youtube-box iframe { height: 200px; }
+
+    /* Timeline adjustments for small screens - stacked layout to avoid overlap */
+    .timeline-card { padding: 16px; margin: 18px; --timeline-date-width: 110px; }
+    .timeline-list::before { display: none; } /* remove vertical line on mobile */
+    .timeline-list li { display: block; padding: 14px 0 14px 40px; gap: 0; }
+    .timeline-list li::before { left: 10px; top: 22px; width: 12px; height: 12px; }
+    .timeline-list li strong { display: block; width: auto; margin-bottom: 6px; font-size: 0.95rem; }
+    .timeline-content { padding-left: 0; }
   }
 </style>
 </head>
