@@ -1,1 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Isabel 🕷️</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap');
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Comic Neue', cursive;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* WEB BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(220,20,60,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220,20,60,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SPIDER EMOJI FLOATERS */
+  .spider { position: fixed; font-size: 1.5rem; animation: swing linear infinite; opacity: 0.18; pointer-events: none; z-index: 0; }
+  @keyframes swing {
+    0%   { transform: translateY(-40px) rotate(-10deg); }
+    50%  { transform: translateY(40px) rotate(10deg); }
+    100% { transform: translateY(-40px) rotate(-10deg); }
+  }
+
+  /* PASSWORD SCREEN */
+  #password-screen {
+    position: fixed; inset: 0; z-index: 100;
+    background: #0a0a0a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1.5rem; padding: 2rem; text-align: center;
+  }
+  .spider-logo { font-size: 5rem; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
+  #password-screen h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.2rem; letter-spacing: 3px;
+    color: #dc143c;
+    text-shadow: 2px 2px 0 #000, 0 0 20px rgba(220,20,60,0.5);
+  }
+  #password-screen p { color: #aaa; font-size: 1rem; line-height: 1.6; max-width: 320px; }
+  #password-screen input {
+    background: #1a1a1a; border: 2px solid #dc143c;
+    color: #fff; padding: 0.8rem 1.2rem;
+    border-radius: 12px; font-size: 1.1rem;
+    font-family: 'Comic Neue', cursive;
+    width: 100%; max-width: 320px; text-align: center;
+    outline: none; letter-spacing: 2px;
+  }
+  #password-screen input:focus { box-shadow: 0 0 15px rgba(220,20,60,0.4); }
+  #unlock-btn {
+    background: #dc143c; color: #fff;
+    border: none; padding: 0.8rem 2.5rem;
+    border-radius: 12px; font-size: 1.1rem;
+    font-family: 'Bangers', cursive; letter-spacing: 2px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  #unlock-btn:hover { background: #ff1a4a; transform: scale(1.05); }
+  #pw-error { color: #dc143c; font-size: 0.9rem; min-height: 1.2rem; }
+  .hint-toggle { color: #555; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+  .hint-toggle:hover { color: #888; }
+  #hint-text { color: #888; font-size: 0.82rem; max-width: 300px; display: none; line-height: 1.6; }
+
+  /* LETTER SCREEN */
+  #letter-screen { display: none; position: relative; z-index: 1; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+    position: relative;
+  }
+  .hero-spider { font-size: 4rem; margin-bottom: 1rem; animation: pulse 2s ease-in-out infinite; }
+  .hero h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: #dc143c;
+    text-shadow: 3px 3px 0 #000, 0 0 30px rgba(220,20,60,0.4);
+    letter-spacing: 4px; line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .hero h2 { color: #aaa; font-size: 1.1rem; font-weight: 400; margin-bottom: 2rem; }
+  .scroll-hint { color: #555; font-size: 0.9rem; animation: bounce 1.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+
+  /* LETTER SECTIONS */
+  .letter-section {
+    max-width: 680px; margin: 0 auto;
+    padding: 4rem 2rem;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .letter-section.visible { opacity: 1; transform: translateY(0); }
+
+  .panel {
+    background: #111;
+    border: 2px solid #dc143c;
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 0 30px rgba(220,20,60,0.15);
+  }
+  .panel-label {
+    position: absolute; top: -14px; left: 20px;
+    background: #dc143c; color: #fff;
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem; letter-spacing: 2px;
+    padding: 2px 14px; border-radius: 6px;
+  }
+  .panel p {
+    font-size: 1.05rem; line-height: 1.9;
+    color: #ddd;
+  }
+  .panel p + p { margin-top: 1rem; }
+  .panel .highlight { color: #dc143c; font-weight: 700; }
+
+  /* GIFT BASKET */
+  .basket-title {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem; color: #dc143c;
+    text-align: center; letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .basket-sub { text-align: center; color: #888; margin-bottom: 2rem; font-size: 0.95rem; }
+  .basket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .basket-item {
+    background: #111;
+    border: 2px solid #333;
+    border-radius: 16px;
+    padding: 1.2rem 0.8rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .basket-item:hover {
+    border-color: #dc143c;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(220,20,60,0.2);
+  }
+  .basket-item .icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .basket-item .item-name { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .basket-item .item-note { font-size: 0.75rem; color: #777; }
+
+  /* SURPRISE BUTTON */
+  .surprise-wrap { text-align: center; padding: 3rem 2rem; }
+  #surprise-btn {
+    background: transparent;
+    border: 2px solid #dc143c;
+    color: #dc143c;
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem; letter-spacing: 3px;
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #surprise-btn:hover { background: #dc143c; color: #fff; transform: scale(1.05); }
+
+  /* NOTICE SECTION */
+  #notice-section {
+    display: none; max-width: 680px;
+    margin: 0 auto; padding: 0 2rem 4rem;
+  }
+  .notice-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem; color: #dc143c;
+    text-align: center; letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .notice-item {
+    display: flex; align-items: flex-start;
+    gap: 1rem; padding: 1rem 0;
+    border-bottom: 1px solid #1a1a1a;
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  .notice-item.pop { opacity: 1; transform: translateX(0); }
+  .notice-num {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem; color: #dc143c;
+    min-width: 32px;
+  }
+  .notice-text { font-size: 1rem; color: #ccc; line-height: 1.7; padding-top: 2px; }
+
+  /* SIGN OFF */
+  .signoff {
+    text-align: center; padding: 3rem 2rem 5rem;
+    font-size: 1.1rem; color: #888; line-height: 2;
+  }
+  .signoff .name {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem; color: #dc143c;
+    letter-spacing: 3px; display: block;
+    margin-top: 0.5rem;
+    text-shadow: 2px 2px 0 #000;
+  }
+</style>
+</head>
+<body>
+
+<!-- FLOATING SPIDERS -->
+<div class="spider" style="left:5%;animation-duration:4s;animation-delay:0s;">🕷️</div>
+<div class="spider" style="left:20%;animation-duration:5s;animation-delay:1s;">🕸️</div>
+<div class="spider" style="left:75%;animation-duration:3.5s;animation-delay:0.5s;">🕷️</div>
+<div class="spider" style="left:90%;animation-duration:4.5s;animation-delay:2s;">🕸️</div>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="spider-logo">🕷️</div>
+  <h1>ACCESS REQUIRED</h1>
+  <p>This page is protected by Spider-Man himself.<br>Only Isabel knows the password.</p>
+  <input type="text" id="pw-input" placeholder="enter password..." />
+  <div id="pw-error"></div>
+  <button id="unlock-btn" onclick="checkPassword()">UNLOCK ↗</button>
+  <span class="hint-toggle" onclick="toggleHint()">need a hint?</span>
+  <div id="hint-text">Each letter of "I LOVE YOU" has a number. A=1, B=2... you know the rest 🕷️</div>
+</div>
+
+<!-- LETTER SCREEN -->
+<div id="letter-screen">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-spider">🕷️</div>
+    <h1>FOR ISABEL</h1>
+    <h2>a message from your friendly neighborhood Caleb</h2>
+    <div class="scroll-hint">↓ scroll to read ↓</div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="letter-section">
+    <div class="panel">
+      <div class="panel-label">CHAPTER 1</div>
+      <p>Okay Isabel. Three months. <span class="highlight">THREE.</span> That's 90-ish days of me somehow convincing you to keep talking to me, which honestly deserves its own Marvel movie.</p>
+      <p>I don't know how I got this lucky, but here we are — and I just wanted to take a second to actually tell you what these three months have meant to me.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="letter-section">
+    <div class="panel">
+      <div class="panel-label">CHAPTER 2</div>
+      <p>The way you speak — there's something about it that just pulls me in every single time. I could listen to you talk about literally anything. You could be describing how you made toast and I'd be locked in.</p>
+      <p>And your laugh? <span class="highlight">Isabel.</span> Your laugh is one of those things I think about at random times and just smile like an idiot. No further explanation needed.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="letter-section">
+    <div class="panel">
+      <div class="panel-label">CHAPTER 3</div>
+      <p>Here's the thing about you that gets me the most — your eyes literally <span class="highlight">glitter</span>. Like actual glitter. I don't know how you do that but it should probably be illegal because it's very distracting.</p>
+      <p>And your personality? It's one of those rare ones that makes everyone around you feel like the best version of themselves. That's not nothing. That's actually everything.</p>
+    </div>
+  </div>
+
+  <!-- GIFT BASKET -->
+  <div class="letter-section">
+    <p class="basket-title">🕷️ YOUR GIFT BASKET 🕷️</p>
+    <p class="basket-sub">curated specifically for one Isabel, delivered by Caleb</p>
+    <div class="basket-grid">
+      <div class="basket-item">
+        <div class="icon">🥤</div>
+        <div class="item-name">Alani Nu</div>
+        <div class="item-note">your go-to drink</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🍵</div>
+        <div class="item-name">Matcha</div>
+        <div class="item-note">because you have taste</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🌸</div>
+        <div class="item-name">Lilies</div>
+        <div class="item-note">your favorite flower</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🍉</div>
+        <div class="item-name">Watermelon</div>
+        <div class="item-note">peak fruit, good choice</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🎵</div>
+        <div class="item-name">Bad Bunny</div>
+        <div class="item-note">un verano sin ti forever</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🕷️</div>
+        <div class="item-name">Spider-Man</div>
+        <div class="item-note">the GOAT, no debate</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">🎬</div>
+        <div class="item-name">La La Land</div>
+        <div class="item-note">cinematic perfection</div>
+      </div>
+      <div class="basket-item">
+        <div class="icon">💛</div>
+        <div class="item-name">Caleb</div>
+        <div class="item-note">okay this one's free</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SURPRISE BUTTON -->
+  <div class="surprise-wrap letter-section">
+    <p style="color:#666;margin-bottom:1.5rem;font-size:0.95rem;">one more thing before you go...</p>
+    <button id="surprise-btn" onclick="revealNotice()">TAP IF YOU DARE 🕷️</button>
+  </div>
+
+  <!-- NOTICE SECTION -->
+  <div id="notice-section">
+    <p class="notice-title">THINGS I NOTICE ABOUT YOU</p>
+    <div id="notice-list"></div>
+  </div>
+
+  <!-- SIGN OFF -->
+  <div class="signoff">
+    here's to three months, and whatever comes next 🕷️
+    <span class="name">— Caleb</span>
+  </div>
+
+</div>
+
+<script>
+  const PASSWORD = "912151222525152 1";
+
+  function normalizeInput(str) {
+    return str.replace(/\s+/g, '').toLowerCase();
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('pw-input').value;
+    const normalized = normalizeInput(input);
+    const correct = normalizeInput(PASSWORD);
+    if (normalized === correct) {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('letter-screen').style.display = 'block';
+      initScrollReveal();
+    } else {
+      document.getElementById('pw-error').textContent = "that's not it, Isabel 🕷️ try again";
+      document.getElementById('pw-input').style.borderColor = '#ff4444';
+      setTimeout(() => {
+        document.getElementById('pw-error').textContent = '';
+        document.getElementById('pw-input').style.borderColor = '#dc143c';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  function toggleHint() {
+    const h = document.getElementById('hint-text');
+    h.style.display = h.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function initScrollReveal() {
+    const sections = document.querySelectorAll('.letter-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    sections.forEach(s => observer.observe(s));
+  }
+
+  const notices = [
+    "The way you speak — there's a rhythm to it that I could honestly listen to for hours. You don't even have to be saying anything important.",
+    "Your laugh. Specifically your laugh. It's one of those that makes everyone else laugh too without knowing why.",
+    "The way your eyes glitter when you're excited about something. It's like they have their own lighting setup. Very unfair.",
+    "Your personality isn't just good — it's the kind that makes people feel lucky to be around you. I feel that every single time.",
+    "The fact that your favorite flower is a lily, your favorite movie is La La Land, and your favorite superhero is Spider-Man tells me everything I need to know. You have immaculate taste.",
+    "Three months in and you still somehow make everything better just by being you. That's the thing I notice most."
+  ];
+
+  function revealNotice() {
+    document.getElementById('surprise-btn').style.display = 'none';
+    const section = document.getElementById('notice-section');
+    section.style.display = 'block';
+    const list = document.getElementById('notice-list');
+    notices.forEach((text, i) => {
+      const div = document.createElement('div');
+      div.className = 'notice-item';
+      div.innerHTML = `<div class="notice-num">${i+1}.</div><div class="notice-text">${text}</div>`;
+      list.appendChild(div);
+      setTimeout(() => div.classList.add('pop'), i * 400);
+    });
+  }
+</script>
+</body>
+</html>
