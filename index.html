@@ -3,412 +3,2200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Isabel 🕷️</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+<title>For Isabel</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
-    background: #0a0a0a;
-    color: #fff;
+    background: #080808;
+    color: white;
     font-family: 'Comic Neue', cursive;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* WEB BACKGROUND */
   body::before {
-    content: '';
+    content: "";
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(220,20,60,0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(220,20,60,0.07) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
     z-index: 0;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(rgba(220,20,60,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220,20,60,0.045) 1px, transparent 1px);
+
+    background-size: 60px 60px;
   }
 
-  /* SPIDER EMOJI FLOATERS */
-  .spider { position: fixed; font-size: 1.5rem; animation: swing linear infinite; opacity: 0.18; pointer-events: none; z-index: 0; }
-  @keyframes swing {
-    0%   { transform: translateY(-40px) rotate(-10deg); }
-    50%  { transform: translateY(40px) rotate(10deg); }
-    100% { transform: translateY(-40px) rotate(-10deg); }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+      radial-gradient(
+        circle at center,
+        rgba(220,20,60,0.065),
+        transparent 62%
+      );
   }
 
-  /* PASSWORD SCREEN */
+  /* =========================
+     FLOATING WEB ELEMENTS
+  ========================= */
+
+  .floating-web {
+    position: fixed;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.08;
+  }
+
+  .web-left {
+    left: -30px;
+    top: -30px;
+    width: 150px;
+    height: 150px;
+    border-right: 2px solid #dc143c;
+    border-bottom: 2px solid #dc143c;
+    border-radius: 0 0 100% 0;
+  }
+
+  .web-right {
+    right: -30px;
+    bottom: -30px;
+    width: 150px;
+    height: 150px;
+    border-left: 2px solid #dc143c;
+    border-top: 2px solid #dc143c;
+    border-radius: 100% 0 0 0;
+  }
+
+  /* =========================
+     PASSWORD SCREEN
+  ========================= */
+
   #password-screen {
-    position: fixed; inset: 0; z-index: 100;
-    background: #0a0a0a;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 1.5rem; padding: 2rem; text-align: center;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+    text-align: center;
+
+    background: #080808;
+
+    transition:
+      opacity 0.8s ease,
+      visibility 0.8s ease;
   }
-  .spider-logo { font-size: 5rem; animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
+
+  #password-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .password-spider {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin-bottom: 1.4rem;
+
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .spider-body {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 28px;
+    height: 45px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+    background: #dc143c;
+
+    box-shadow:
+      0 0 20px rgba(220,20,60,0.35);
+  }
+
+  .spider-head {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 25px;
+    height: 25px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+    background: #dc143c;
+  }
+
+  .spider-leg {
+    position: absolute;
+    width: 38px;
+    height: 5px;
+
+    background: #dc143c;
+    border-radius: 10px;
+  }
+
+  .leg-1 {
+    left: 0;
+    top: 28px;
+    transform: rotate(25deg);
+  }
+
+  .leg-2 {
+    left: 0;
+    top: 42px;
+    transform: rotate(-25deg);
+  }
+
+  .leg-3 {
+    right: 0;
+    top: 28px;
+    transform: rotate(-25deg);
+  }
+
+  .leg-4 {
+    right: 0;
+    top: 42px;
+    transform: rotate(25deg);
+  }
+
+  .leg-5 {
+    left: 3px;
+    top: 13px;
+    transform: rotate(45deg);
+  }
+
+  .leg-6 {
+    right: 3px;
+    top: 13px;
+    transform: rotate(-45deg);
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.08);
+    }
+  }
+
   #password-screen h1 {
     font-family: 'Bangers', cursive;
-    font-size: 2.2rem; letter-spacing: 3px;
-    color: #dc143c;
-    text-shadow: 2px 2px 0 #000, 0 0 20px rgba(220,20,60,0.5);
-  }
-  #password-screen p { color: #aaa; font-size: 1rem; line-height: 1.6; max-width: 320px; }
-  #password-screen input {
-    background: #1a1a1a; border: 2px solid #dc143c;
-    color: #fff; padding: 0.8rem 1.2rem;
-    border-radius: 12px; font-size: 1.1rem;
-    font-family: 'Comic Neue', cursive;
-    width: 100%; max-width: 320px; text-align: center;
-    outline: none; letter-spacing: 2px;
-  }
-  #password-screen input:focus { box-shadow: 0 0 15px rgba(220,20,60,0.4); }
-  #unlock-btn {
-    background: #dc143c; color: #fff;
-    border: none; padding: 0.8rem 2.5rem;
-    border-radius: 12px; font-size: 1.1rem;
-    font-family: 'Bangers', cursive; letter-spacing: 2px;
-    cursor: pointer; transition: all 0.2s;
-  }
-  #unlock-btn:hover { background: #ff1a4a; transform: scale(1.05); }
-  #pw-error { color: #dc143c; font-size: 0.9rem; min-height: 1.2rem; }
-  .hint-toggle { color: #555; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
-  .hint-toggle:hover { color: #888; }
-  #hint-text { color: #888; font-size: 0.82rem; max-width: 300px; display: none; line-height: 1.6; }
+    font-size: clamp(2.2rem, 8vw, 3.3rem);
+    letter-spacing: 5px;
 
-  /* LETTER SCREEN */
-  #letter-screen { display: none; position: relative; z-index: 1; }
+    color: #dc143c;
+
+    text-shadow:
+      3px 3px 0 #000,
+      0 0 25px rgba(220,20,60,0.35);
+
+    margin-bottom: 0.7rem;
+  }
+
+  #password-screen p {
+    color: #888;
+    max-width: 340px;
+
+    line-height: 1.7;
+    font-size: 0.98rem;
+
+    margin-bottom: 1.5rem;
+  }
+
+  #pw-input {
+    width: 100%;
+    max-width: 320px;
+
+    padding: 0.9rem 1.1rem;
+
+    border: 2px solid #333;
+    border-radius: 12px;
+
+    background: #111;
+    color: white;
+
+    font-family: 'Comic Neue', cursive;
+    font-size: 1rem;
+    text-align: center;
+
+    outline: none;
+
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  #pw-input:focus {
+    border-color: #dc143c;
+    box-shadow: 0 0 20px rgba(220,20,60,0.18);
+  }
+
+  #unlock-btn {
+    margin-top: 1rem;
+
+    padding: 0.85rem 2.3rem;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #dc143c;
+    color: white;
+
+    font-family: 'Bangers', cursive;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+      transform 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  #unlock-btn:hover {
+    background: #f01947;
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 8px 25px rgba(220,20,60,0.2);
+  }
+
+  #pw-error {
+    min-height: 1.3rem;
+    margin-top: 0.7rem;
+
+    color: #ff4b6e;
+    font-size: 0.9rem;
+  }
+
+  .hint-toggle {
+    margin-top: 0.7rem;
+
+    color: #555;
+    font-size: 0.83rem;
+
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .hint-toggle:hover {
+    color: #888;
+  }
+
+  #hint-text {
+    display: none;
+
+    max-width: 300px;
+    margin-top: 0.7rem;
+
+    color: #777;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* =========================
+     MAIN SITE
+  ========================= */
+
+  #letter-screen {
+    position: relative;
+    z-index: 2;
+    display: none;
+  }
+
+  /* =========================
+     HERO
+  ========================= */
 
   .hero {
     min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 2rem;
+
     position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+
+    text-align: center;
   }
-  .hero-spider { font-size: 4rem; margin-bottom: 1rem; animation: pulse 2s ease-in-out infinite; }
+
+  .hero-spider {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.2rem;
+
+    animation: pulse 2s ease-in-out infinite;
+  }
+
   .hero h1 {
     font-family: 'Bangers', cursive;
-    font-size: clamp(2.5rem, 8vw, 5rem);
+
+    font-size: clamp(3.2rem, 11vw, 6rem);
+    letter-spacing: 6px;
+
     color: #dc143c;
-    text-shadow: 3px 3px 0 #000, 0 0 30px rgba(220,20,60,0.4);
-    letter-spacing: 4px; line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-  .hero h2 { color: #aaa; font-size: 1.1rem; font-weight: 400; margin-bottom: 2rem; }
-  .scroll-hint { color: #555; font-size: 0.9rem; animation: bounce 1.5s ease-in-out infinite; }
-  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
 
-  /* LETTER SECTIONS */
-  .letter-section {
-    max-width: 680px; margin: 0 auto;
-    padding: 4rem 2rem;
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .letter-section.visible { opacity: 1; transform: translateY(0); }
+    text-shadow:
+      4px 4px 0 #000,
+      0 0 30px rgba(220,20,60,0.35);
 
-  .panel {
-    background: #111;
-    border: 2px solid #dc143c;
-    border-radius: 16px;
-    padding: 2rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .hero-subtitle {
+    color: #999;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-note {
+    max-width: 360px;
+    color: #555;
+
+    line-height: 1.8;
+    font-size: 0.9rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+
+    color: #555;
+    font-size: 0.85rem;
+
+    animation: bounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(6px);
+    }
+  }
+
+  /* =========================
+     LETTER
+  ========================= */
+
+  .letter-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.4rem;
+  }
+
+  .letter-card {
     position: relative;
-    box-shadow: 0 0 30px rgba(220,20,60,0.15);
-  }
-  .panel-label {
-    position: absolute; top: -14px; left: 20px;
-    background: #dc143c; color: #fff;
-    font-family: 'Bangers', cursive;
-    font-size: 0.9rem; letter-spacing: 2px;
-    padding: 2px 14px; border-radius: 6px;
-  }
-  .panel p {
-    font-size: 1.05rem; line-height: 1.9;
-    color: #ddd;
-  }
-  .panel p + p { margin-top: 1rem; }
-  .panel .highlight { color: #dc143c; font-weight: 700; }
 
-  /* GIFT BASKET */
-  .basket-title {
-    font-family: 'Bangers', cursive;
-    font-size: 2rem; color: #dc143c;
-    text-align: center; letter-spacing: 3px;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 0 #000;
-  }
-  .basket-sub { text-align: center; color: #888; margin-bottom: 2rem; font-size: 0.95rem; }
-  .basket-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-  .basket-item {
-    background: #111;
-    border: 2px solid #333;
-    border-radius: 16px;
-    padding: 1.2rem 0.8rem;
-    text-align: center;
-    transition: all 0.3s;
-    cursor: default;
-  }
-  .basket-item:hover {
-    border-color: #dc143c;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(220,20,60,0.2);
-  }
-  .basket-item .icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
-  .basket-item .item-name { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
-  .basket-item .item-note { font-size: 0.75rem; color: #777; }
+    padding: clamp(2rem, 6vw, 4rem);
 
-  /* SURPRISE BUTTON */
-  .surprise-wrap { text-align: center; padding: 3rem 2rem; }
-  #surprise-btn {
-    background: transparent;
-    border: 2px solid #dc143c;
+    border: 1px solid #272727;
+    border-radius: 20px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255,255,255,0.025),
+        rgba(255,255,255,0.008)
+      );
+
+    box-shadow:
+      0 25px 80px rgba(0,0,0,0.45),
+      inset 0 0 45px rgba(220,20,60,0.025);
+  }
+
+  .letter-card::before {
+    content: "";
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 30px;
+    height: 30px;
+
+    border-top: 2px solid #dc143c;
+    border-right: 2px solid #dc143c;
+
+    opacity: 0.5;
+  }
+
+  .letter-label {
+    font-family: 'Bangers', cursive;
+
     color: #dc143c;
+
+    font-size: 0.95rem;
+    letter-spacing: 4px;
+
+    margin-bottom: 2rem;
+  }
+
+  .letter-card p {
+    color: #ddd;
+
+    font-size: clamp(1.05rem, 2vw, 1.18rem);
+    line-height: 2;
+  }
+
+  .letter-card p + p {
+    margin-top: 1.6rem;
+  }
+
+  .emphasis {
+    color: white;
+    font-weight: 700;
+  }
+
+  .letter-heart {
+    display: block;
+
+    margin-top: 2.7rem;
+
+    text-align: center;
+
+    color: #dc143c;
+
+    font-size: 2rem;
+
+    animation: heartPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes heartPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+
+    50% {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+  }
+
+  /* =========================
+     GIFT INTRO
+  ========================= */
+
+  .gift-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 3rem;
+  }
+
+  .gift-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .gift-kicker {
+    color: #dc143c;
+
     font-family: 'Bangers', cursive;
-    font-size: 1.3rem; letter-spacing: 3px;
-    padding: 1rem 2.5rem;
-    border-radius: 12px;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+
+    margin-bottom: 0.7rem;
+  }
+
+  .gift-intro h2 {
+    font-family: 'Bangers', cursive;
+
+    color: white;
+
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    letter-spacing: 4px;
+
+    text-shadow: 3px 3px 0 #000;
+  }
+
+  .gift-intro p {
+    max-width: 500px;
+    margin: 1rem auto 0;
+
+    color: #888;
+
+    line-height: 1.8;
+  }
+
+  /* =========================
+     GIFT STAGE
+  ========================= */
+
+  .gift-stage {
+    position: relative;
+
+    width: min(100%, 780px);
+    height: 600px;
+
+    margin: 0 auto;
+  }
+
+  .basket-handle {
+    position: absolute;
+
+    left: 50%;
+    bottom: 145px;
+
+    transform: translateX(-50%);
+
+    width: 440px;
+    height: 250px;
+
+    border: 20px solid #71411f;
+    border-bottom: none;
+
+    border-radius: 230px 230px 0 0;
+
+    z-index: 1;
+
+    box-shadow:
+      inset 0 5px 8px rgba(255,255,255,0.05);
+  }
+
+  .basket {
+    position: absolute;
+
+    left: 50%;
+    bottom: 35px;
+
+    width: 500px;
+    height: 190px;
+
+    transform: translateX(-50%);
+
+    border-radius: 0 0 115px 115px;
+
+    overflow: hidden;
+
+    background:
+      repeating-linear-gradient(
+        90deg,
+        #8b542e 0 15px,
+        #6d3d20 15px 22px
+      );
+
+    box-shadow:
+      inset 0 12px 18px rgba(255,255,255,0.05),
+      0 25px 40px rgba(0,0,0,0.45);
+
+    z-index: 8;
+  }
+
+  .basket::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.035) 0 10px,
+        transparent 10px 23px
+      );
+
+    mix-blend-mode: overlay;
+  }
+
+  .basket-rim {
+    position: absolute;
+
+    left: 50%;
+    top: -15px;
+
+    transform: translateX(-50%);
+
+    width: 530px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: #9a6036;
+
+    box-shadow:
+      inset 0 5px 8px rgba(255,255,255,0.07),
+      0 5px 10px rgba(0,0,0,0.3);
+
+    z-index: 10;
+  }
+
+  /* =========================
+     GIFT ITEMS
+  ========================= */
+
+  .gift-item {
+    position: absolute;
+
+    border: none;
+    background: transparent;
+
     cursor: pointer;
-    transition: all 0.3s;
-  }
-  #surprise-btn:hover { background: #dc143c; color: #fff; transform: scale(1.05); }
 
-  /* NOTICE SECTION */
-  #notice-section {
-    display: none; max-width: 680px;
-    margin: 0 auto; padding: 0 2rem 4rem;
-  }
-  .notice-title {
-    font-family: 'Bangers', cursive;
-    font-size: 1.8rem; color: #dc143c;
-    text-align: center; letter-spacing: 3px;
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 0 #000;
-  }
-  .notice-item {
-    display: flex; align-items: flex-start;
-    gap: 1rem; padding: 1rem 0;
-    border-bottom: 1px solid #1a1a1a;
-    opacity: 0; transform: translateX(-20px);
-    transition: all 0.5s ease;
-  }
-  .notice-item.pop { opacity: 1; transform: translateX(0); }
-  .notice-num {
-    font-family: 'Bangers', cursive;
-    font-size: 1.5rem; color: #dc143c;
-    min-width: 32px;
-  }
-  .notice-text { font-size: 1rem; color: #ccc; line-height: 1.7; padding-top: 2px; }
+    padding: 0;
 
-  /* SIGN OFF */
-  .signoff {
-    text-align: center; padding: 3rem 2rem 5rem;
-    font-size: 1.1rem; color: #888; line-height: 2;
+    z-index: 12;
+
+    transition:
+      transform 0.45s cubic-bezier(.2,.8,.2,1),
+      filter 0.25s ease;
   }
-  .signoff .name {
+
+  .gift-item:hover {
+    filter: brightness(1.08);
+  }
+
+  .gift-item.open {
+    z-index: 30;
+
+    transform:
+      translateY(-70px)
+      scale(1.12)
+      rotate(0deg) !important;
+  }
+
+  .gift-note {
+    position: absolute;
+
+    top: calc(100% + 15px);
+    left: 50%;
+
+    width: 225px;
+
+    transform:
+      translate(-50%, 10px)
+      scale(0.9);
+
+    padding: 14px 16px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    background: #f5ead7;
+    color: #30211a;
+
+    border-radius: 8px;
+
+    box-shadow:
+      0 12px 30px rgba(0,0,0,0.4);
+
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease;
+  }
+
+  .gift-note::before {
+    content: "";
+
+    position: absolute;
+
+    top: -8px;
+    left: 50%;
+
+    width: 16px;
+    height: 16px;
+
+    transform: translateX(-50%) rotate(45deg);
+
+    background: #f5ead7;
+  }
+
+  .gift-item.open .gift-note {
+    opacity: 1;
+
+    transform:
+      translate(-50%, 0)
+      scale(1);
+  }
+
+  .gift-note strong {
+    display: block;
+
+    color: #b31337;
+
     font-family: 'Bangers', cursive;
-    font-size: 2rem; color: #dc143c;
-    letter-spacing: 3px; display: block;
+
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+
+    margin-bottom: 4px;
+  }
+
+  .gift-note span {
+    display: block;
+
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* =========================
+     ITEM POSITIONS
+  ========================= */
+
+  .gift-alani {
+    left: 12%;
+    bottom: 165px;
+    transform: rotate(-10deg);
+  }
+
+  .gift-matcha {
+    left: 29%;
+    bottom: 155px;
+    transform: rotate(5deg);
+  }
+
+  .gift-lily {
+    left: 43%;
+    bottom: 202px;
+    transform: rotate(-7deg);
+  }
+
+  .gift-watermelon {
+    right: 28%;
+    bottom: 165px;
+    transform: rotate(10deg);
+  }
+
+  .gift-music {
+    right: 13%;
+    bottom: 175px;
+    transform: rotate(-8deg);
+  }
+
+  .gift-movie {
+    left: 35%;
+    bottom: 245px;
+    transform: rotate(9deg);
+  }
+
+  .gift-spiderman {
+    right: 34%;
+    bottom: 230px;
+    transform: rotate(-12deg);
+  }
+
+  /* =========================
+     ALANI-STYLE CAN
+  ========================= */
+
+  .alani-can {
+    position: relative;
+
+    width: 72px;
+    height: 150px;
+  }
+
+  .can-body {
+    width: 72px;
+    height: 140px;
+
+    border-radius: 17px 17px 13px 13px;
+
+    background:
+      linear-gradient(
+        90deg,
+        #c9143e 0%,
+        #ed3156 45%,
+        #b80e33 100%
+      );
+
+    box-shadow:
+      inset -7px 0 12px rgba(0,0,0,0.18),
+      0 15px 20px rgba(0,0,0,0.35);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+  }
+
+  .can-top,
+  .can-bottom {
+    position: absolute;
+    left: 4px;
+
+    width: 64px;
+    height: 10px;
+
+    border-radius: 50%;
+  }
+
+  .can-top {
+    top: 0;
+    background: #ddd;
+  }
+
+  .can-bottom {
+    bottom: 0;
+    background: #777;
+  }
+
+  .can-brand {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .can-flavor {
+    margin-top: 6px;
+
+    font-family: Georgia, serif;
+
+    font-size: 13px;
+  }
+
+  .can-small {
+    margin-top: 8px;
+
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* =========================
+     MATCHA
+  ========================= */
+
+  .matcha-cup {
+    position: relative;
+
+    width: 105px;
+    height: 120px;
+  }
+
+  .matcha-cup-body {
+    position: absolute;
+
+    left: 10px;
+    bottom: 0;
+
+    width: 85px;
+    height: 92px;
+
+    border-radius: 12px 12px 35px 35px;
+
+    background: #f3ede1;
+
+    box-shadow:
+      inset -8px 0 10px rgba(0,0,0,0.08),
+      0 12px 20px rgba(0,0,0,0.3);
+  }
+
+  .matcha-liquid {
+    position: absolute;
+
+    left: 17px;
+    top: 12px;
+
+    width: 71px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #849d57;
+
+    z-index: 2;
+  }
+
+  .matcha-foam {
+    position: absolute;
+
+    left: 27px;
+    top: 20px;
+
+    width: 50px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: #a8bc7e;
+
+    z-index: 3;
+  }
+
+  .matcha-handle {
+    position: absolute;
+
+    right: 0;
+    top: 38px;
+
+    width: 30px;
+    height: 42px;
+
+    border: 8px solid #f3ede1;
+    border-left: none;
+
+    border-radius: 0 25px 25px 0;
+  }
+
+  /* =========================
+     LILY
+  ========================= */
+
+  .lily-flower {
+    position: relative;
+
+    width: 110px;
+    height: 175px;
+  }
+
+  .petal {
+    position: absolute;
+
+    left: 35px;
+    top: 15px;
+
+    width: 40px;
+    height: 75px;
+
+    border-radius: 70% 30% 70% 30%;
+
+    background: #fffaf7;
+
+    transform-origin: 50% 85%;
+
+    box-shadow:
+      0 5px 12px rgba(0,0,0,0.2);
+  }
+
+  .p1 {
+    transform: rotate(0deg);
+  }
+
+  .p2 {
+    transform: rotate(72deg);
+  }
+
+  .p3 {
+    transform: rotate(144deg);
+  }
+
+  .p4 {
+    transform: rotate(216deg);
+  }
+
+  .p5 {
+    transform: rotate(288deg);
+  }
+
+  .lily-center {
+    position: absolute;
+
+    left: 51px;
+    top: 47px;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #e8bc49;
+
+    z-index: 4;
+  }
+
+  .lily-stem {
+    position: absolute;
+
+    left: 52px;
+    top: 78px;
+
+    width: 7px;
+    height: 90px;
+
+    border-radius: 10px;
+
+    background: #4f7a48;
+
+    transform: rotate(5deg);
+  }
+
+  /* =========================
+     WATERMELON
+  ========================= */
+
+  .watermelon-slice {
+    position: relative;
+
+    width: 120px;
+    height: 75px;
+
+    overflow: hidden;
+
+    border-radius: 120px 120px 0 0;
+
+    background: #d92a3f;
+
+    box-shadow:
+      0 12px 18px rgba(0,0,0,0.3);
+  }
+
+  .watermelon-rind {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 16px;
+
+    background: #3f7d48;
+  }
+
+  .watermelon-rind::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 8px;
+
+    width: 100%;
+    height: 5px;
+
+    background: #e6e3ad;
+  }
+
+  .seed {
+    position: absolute;
+
+    width: 5px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #241b19;
+  }
+
+  .s1 {
+    left: 28px;
+    top: 35px;
+    transform: rotate(20deg);
+  }
+
+  .s2 {
+    left: 50px;
+    top: 22px;
+    transform: rotate(-20deg);
+  }
+
+  .s3 {
+    left: 74px;
+    top: 38px;
+    transform: rotate(15deg);
+  }
+
+  .s4 {
+    left: 92px;
+    top: 25px;
+    transform: rotate(-15deg);
+  }
+
+  /* =========================
+     RECORD
+  ========================= */
+
+  .record {
+    position: relative;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    background:
+      repeating-radial-gradient(
+        circle,
+        #171717 0 4px,
+        #101010 5px 7px
+      );
+
+    box-shadow:
+      0 15px 25px rgba(0,0,0,0.4);
+  }
+
+  .record-label {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #b4143d;
+
+    font-family: 'Bangers', cursive;
+
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+
+  .record-hole {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #111;
+  }
+
+  /* =========================
+     MOVIE TICKET
+  ========================= */
+
+  .movie-ticket {
+    width: 130px;
+    height: 85px;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background: #f1dfc0;
+    color: #3a2924;
+
+    border-left: 9px dotted #9b7753;
+    border-right: 9px dotted #9b7753;
+
+    box-shadow:
+      0 12px 20px rgba(0,0,0,0.35);
+  }
+
+  .ticket-top {
+    font-size: 7px;
+    letter-spacing: 2px;
+  }
+
+  .ticket-title {
+    margin-top: 6px;
+
+    font-family: Georgia, serif;
+
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .ticket-bottom {
+    margin-top: 7px;
+
+    font-size: 8px;
+    letter-spacing: 5px;
+  }
+
+  /* =========================
+     SPIDER-MAN CARD
+  ========================= */
+
+  .comic-card {
+    position: relative;
+
+    width: 110px;
+    height: 145px;
+
+    overflow: hidden;
+
+    border: 3px solid #111;
+    border-radius: 8px;
+
+    background:
+      radial-gradient(
+        circle at center,
+        #ef1b45,
+        #7e0a26
+      );
+
+    box-shadow:
+      5px 8px 0 #111,
+      0 15px 20px rgba(0,0,0,0.35);
+  }
+
+  .comic-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+      linear-gradient(
+        30deg,
+        transparent 48%,
+        rgba(0,0,0,0.35) 49%,
+        transparent 51%
+      ),
+      linear-gradient(
+        -30deg,
+        transparent 48%,
+        rgba(0,0,0,0.35) 49%,
+        transparent 51%
+      );
+  }
+
+  .spider-symbol {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 60px;
+    height: 80px;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .spider-symbol .body {
+    position: absolute;
+
+    left: 23px;
+    top: 25px;
+
+    width: 15px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #111;
+  }
+
+  .comic-leg {
+    position: absolute;
+
+    width: 30px;
+    height: 6px;
+
+    border-radius: 10px;
+
+    background: #111;
+  }
+
+  .comic-l1 {
+    left: 0;
+    top: 27px;
+    transform: rotate(25deg);
+  }
+
+  .comic-l2 {
+    left: 0;
+    top: 45px;
+    transform: rotate(-25deg);
+  }
+
+  .comic-l3 {
+    right: 0;
+    top: 27px;
+    transform: rotate(-25deg);
+  }
+
+  .comic-l4 {
+    right: 0;
+    top: 45px;
+    transform: rotate(25deg);
+  }
+
+  .comic-l5 {
+    left: 3px;
+    top: 12px;
+    transform: rotate(45deg);
+  }
+
+  .comic-l6 {
+    right: 3px;
+    top: 12px;
+    transform: rotate(-45deg);
+  }
+
+  .comic-text {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 9px;
+
+    text-align: center;
+
+    font-family: 'Bangers', cursive;
+    font-size: 16px;
+
+    color: white;
+
+    text-shadow:
+      2px 2px #000;
+  }
+
+  /* =========================
+     GIFT FOOTER
+  ========================= */
+
+  .gift-footer {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .gift-footer p {
+    color: #666;
+    line-height: 1.8;
+  }
+
+  .gift-footer span {
+    display: block;
+
     margin-top: 0.5rem;
-    text-shadow: 2px 2px 0 #000;
+
+    color: #dc143c;
+    font-weight: 700;
+  }
+
+  /* =========================
+     FINAL MESSAGE
+  ========================= */
+
+  .final-section {
+    max-width: 680px;
+    margin: 0 auto;
+
+    padding: 5rem 1.5rem 7rem;
+
+    text-align: center;
+  }
+
+  .final-section h2 {
+    font-family: 'Bangers', cursive;
+
+    color: #dc143c;
+
+    font-size: clamp(2.4rem, 7vw, 3.5rem);
+    letter-spacing: 4px;
+
+    text-shadow: 3px 3px 0 #000;
+
+    margin-bottom: 1.3rem;
+  }
+
+  .final-section p {
+    color: #aaa;
+
+    font-size: 1rem;
+    line-height: 1.9;
+
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .final-heart {
+    margin-top: 2rem;
+
+    color: #dc143c;
+
+    font-size: 2rem;
+  }
+
+  /* =========================
+     REVEALS
+  ========================= */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* =========================
+     MOBILE
+  ========================= */
+
+  @media (max-width: 700px) {
+
+    .gift-stage {
+      height: 730px;
+
+      transform: scale(0.82);
+      transform-origin: top center;
+
+      margin-bottom: -100px;
+    }
+
+    .basket {
+      width: 430px;
+    }
+
+    .basket-handle {
+      width: 380px;
+    }
+
+    .gift-alani {
+      left: 7%;
+    }
+
+    .gift-matcha {
+      left: 27%;
+    }
+
+    .gift-lily {
+      left: 43%;
+    }
+
+    .gift-watermelon {
+      right: 20%;
+    }
+
+    .gift-music {
+      right: 4%;
+    }
+
+    .gift-movie {
+      left: 31%;
+    }
+
+    .gift-spiderman {
+      right: 28%;
+    }
+  }
+
+  @media (max-width: 480px) {
+
+    .letter-container {
+      padding: 0 1rem;
+    }
+
+    .letter-card {
+      padding: 1.7rem;
+    }
+
+    .letter-card p {
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .gift-stage {
+      transform: scale(0.68);
+      transform-origin: top center;
+
+      margin-bottom: -180px;
+    }
   }
 </style>
 </head>
+
 <body>
 
-<!-- FLOATING SPIDERS -->
-<div class="spider" style="left:5%;animation-duration:4s;animation-delay:0s;">🕷️</div>
-<div class="spider" style="left:20%;animation-duration:5s;animation-delay:1s;">🕸️</div>
-<div class="spider" style="left:75%;animation-duration:3.5s;animation-delay:0.5s;">🕷️</div>
-<div class="spider" style="left:90%;animation-duration:4.5s;animation-delay:2s;">🕸️</div>
+<div class="floating-web web-left"></div>
+<div class="floating-web web-right"></div>
 
-<!-- PASSWORD SCREEN -->
+<!-- =========================
+     PASSWORD
+========================= -->
+
 <div id="password-screen">
-  <div class="spider-logo">🕷️</div>
+
+  <div class="password-spider">
+
+    <div class="spider-head"></div>
+    <div class="spider-body"></div>
+
+    <div class="spider-leg leg-1"></div>
+    <div class="spider-leg leg-2"></div>
+    <div class="spider-leg leg-3"></div>
+    <div class="spider-leg leg-4"></div>
+    <div class="spider-leg leg-5"></div>
+    <div class="spider-leg leg-6"></div>
+
+  </div>
+
   <h1>ACCESS REQUIRED</h1>
-  <p>This page is protected by Spider-Man himself.<br>Only Isabel knows the password.</p>
-  <input type="text" id="pw-input" placeholder="enter password..." />
+
+  <p>
+    A little something was made for you.
+    <br>
+    You know the password.
+  </p>
+
+  <input
+    type="text"
+    id="pw-input"
+    placeholder="enter password..."
+    autocomplete="off"
+  >
+
   <div id="pw-error"></div>
-  <button id="unlock-btn" onclick="checkPassword()">UNLOCK ↗</button>
-  <span class="hint-toggle" onclick="toggleHint()">need a hint?</span>
-  <div id="hint-text">Each letter of "I LOVE YOU" has a number. A=1, B=2... you know the rest 🕷️</div>
+
+  <button id="unlock-btn" onclick="checkPassword()">
+    UNLOCK ↗
+  </button>
+
+  <span class="hint-toggle" onclick="toggleHint()">
+    need a hint?
+  </span>
+
+  <div id="hint-text">
+    Each letter of "I LOVE YOU" has a number.
+    A = 1, B = 2... you know the rest.
+  </div>
+
 </div>
 
-<!-- LETTER SCREEN -->
+<!-- =========================
+     MAIN PAGE
+========================= -->
+
 <div id="letter-screen">
 
   <!-- HERO -->
-  <div class="hero">
-    <div class="hero-spider">🕷️</div>
+
+  <section class="hero">
+
+    <div class="hero-spider">
+
+      <div class="spider-head"></div>
+      <div class="spider-body"></div>
+
+      <div class="spider-leg leg-1"></div>
+      <div class="spider-leg leg-2"></div>
+      <div class="spider-leg leg-3"></div>
+      <div class="spider-leg leg-4"></div>
+      <div class="spider-leg leg-5"></div>
+      <div class="spider-leg leg-6"></div>
+
+    </div>
+
     <h1>FOR ISABEL</h1>
-    <h2>a message from your friendly neighborhood Caleb</h2>
-    <div class="scroll-hint">↓ scroll to read ↓</div>
-  </div>
 
-  <!-- SECTION 1 -->
-  <div class="letter-section">
-    <div class="panel">
-      <div class="panel-label">CHAPTER 1</div>
-      <p>Okay Isabel. Three months. <span class="highlight">THREE.</span> That's 90-ish days of me somehow convincing you to keep talking to me, which honestly deserves its own Marvel movie.</p>
-      <p>I don't know how I got this lucky, but here we are — and I just wanted to take a second to actually tell you what these three months have meant to me.</p>
+    <p class="hero-subtitle">
+      something I wanted to make for you
+    </p>
+
+    <p class="hero-note">
+      I could've just sent you a message...
+      <br>
+      but that felt a little too easy.
+    </p>
+
+    <div class="scroll-hint">
+      ↓ keep scrolling ↓
     </div>
-  </div>
 
-  <!-- SECTION 2 -->
-  <div class="letter-section">
-    <div class="panel">
-      <div class="panel-label">CHAPTER 2</div>
-      <p>The way you speak — there's something about it that just pulls me in every single time. I could listen to you talk about literally anything. You could be describing how you made toast and I'd be locked in.</p>
-      <p>And your laugh? <span class="highlight">Isabel.</span> Your laugh is one of those things I think about at random times and just smile like an idiot. No further explanation needed.</p>
+  </section>
+
+  <!-- =========================
+       LETTER
+  ========================= -->
+
+  <main class="letter-container">
+
+    <article class="letter-card reveal">
+
+      <div class="letter-label">
+        THREE MONTHS
+      </div>
+
+      <p>
+        I recently learned that the parts of your brain responsible
+        for remembering the past are also responsible for predicting
+        the future.
+      </p>
+
+      <p>
+        After learning this, I immediately thought about us —
+        that the future predicted with our
+        <span class="emphasis">3 months</span>
+        would be absolute perfection; but even if it isn't perfect,
+        being with you would make it perfect enough.
+      </p>
+
+      <p>
+        3 months, of course, isn't even close to what can happen
+        in a lifetime, but you've become such a
+        <span class="emphasis">vital part of my life</span>
+        that I can't even imagine a week without you,
+        let alone a lifetime.
+      </p>
+
+      <p>
+        I love you so, so much &lt;3
+      </p>
+
+      <span class="letter-heart">
+        &lt;3
+      </span>
+
+    </article>
+
+  </main>
+
+  <!-- =========================
+       GIFT BASKET
+  ========================= -->
+
+  <section class="gift-section reveal">
+
+    <div class="gift-intro">
+
+      <div class="gift-kicker">
+        ONE MORE THING
+      </div>
+
+      <h2>
+        A LITTLE SOMETHING FOR YOU
+      </h2>
+
+      <p>
+        I wanted to put together a little gift basket for you.
+        So... I made one.
+      </p>
+
     </div>
-  </div>
 
-  <!-- SECTION 3 -->
-  <div class="letter-section">
-    <div class="panel">
-      <div class="panel-label">CHAPTER 3</div>
-      <p>Here's the thing about you that gets me the most — your eyes literally <span class="highlight">glitter</span>. Like actual glitter. I don't know how you do that but it should probably be illegal because it's very distracting.</p>
-      <p>And your personality? It's one of those rare ones that makes everyone around you feel like the best version of themselves. That's not nothing. That's actually everything.</p>
+    <div class="gift-stage">
+
+      <!-- HANDLE -->
+
+      <div class="basket-handle"></div>
+
+      <!-- ALANI -->
+
+      <button
+        class="gift-item gift-alani"
+        onclick="openGift(this)"
+        aria-label="Alani Nu gift"
+      >
+
+        <div class="alani-can">
+
+          <div class="can-top"></div>
+
+          <div class="can-body">
+
+            <span class="can-brand">
+              ALANI
+            </span>
+
+            <span class="can-flavor">
+              NU
+            </span>
+
+            <span class="can-small">
+              ENERGY
+            </span>
+
+          </div>
+
+          <div class="can-bottom"></div>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Alani Nu
+          </strong>
+
+          <span>
+            because I already know you'd want one in there.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- MATCHA -->
+
+      <button
+        class="gift-item gift-matcha"
+        onclick="openGift(this)"
+        aria-label="Matcha gift"
+      >
+
+        <div class="matcha-cup">
+
+          <div class="matcha-liquid"></div>
+          <div class="matcha-foam"></div>
+          <div class="matcha-cup-body"></div>
+          <div class="matcha-handle"></div>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Matcha
+          </strong>
+
+          <span>
+            somehow matcha is basically part of the Isabel starter pack.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- LILY -->
+
+      <button
+        class="gift-item gift-lily"
+        onclick="openGift(this)"
+        aria-label="Lily flower gift"
+      >
+
+        <div class="lily-flower">
+
+          <span class="petal p1"></span>
+          <span class="petal p2"></span>
+          <span class="petal p3"></span>
+          <span class="petal p4"></span>
+          <span class="petal p5"></span>
+
+          <span class="lily-center"></span>
+          <span class="lily-stem"></span>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Lilies
+          </strong>
+
+          <span>
+            your favorite flower. Obviously this one had to be here.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- WATERMELON -->
+
+      <button
+        class="gift-item gift-watermelon"
+        onclick="openGift(this)"
+        aria-label="Watermelon gift"
+      >
+
+        <div class="watermelon-slice">
+
+          <div class="watermelon-rind"></div>
+
+          <span class="seed s1"></span>
+          <span class="seed s2"></span>
+          <span class="seed s3"></span>
+          <span class="seed s4"></span>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Watermelon
+          </strong>
+
+          <span>
+            one of your many very correct opinions.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- BAD BUNNY / MUSIC -->
+
+      <button
+        class="gift-item gift-music"
+        onclick="openGift(this)"
+        aria-label="Music gift"
+      >
+
+        <div class="record">
+
+          <div class="record-label">
+            BB
+          </div>
+
+          <div class="record-hole"></div>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Bad Bunny
+          </strong>
+
+          <span>
+            because obviously there needs to be music somewhere in here.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- LA LA LAND -->
+
+      <button
+        class="gift-item gift-movie"
+        onclick="openGift(this)"
+        aria-label="La La Land gift"
+      >
+
+        <div class="movie-ticket">
+
+          <div class="ticket-top">
+            ADMIT ONE
+          </div>
+
+          <div class="ticket-title">
+            LA LA<br>LAND
+          </div>
+
+          <div class="ticket-bottom">
+            ★ ★ ★
+          </div>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            La La Land
+          </strong>
+
+          <span>
+            because this one is unmistakably you.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- SPIDER-MAN -->
+
+      <button
+        class="gift-item gift-spiderman"
+        onclick="openGift(this)"
+        aria-label="Spider-Man gift"
+      >
+
+        <div class="comic-card">
+
+          <div class="spider-symbol">
+
+            <span class="body"></span>
+
+            <span class="comic-leg comic-l1"></span>
+            <span class="comic-leg comic-l2"></span>
+            <span class="comic-leg comic-l3"></span>
+            <span class="comic-leg comic-l4"></span>
+            <span class="comic-leg comic-l5"></span>
+            <span class="comic-leg comic-l6"></span>
+
+          </div>
+
+          <div class="comic-text">
+            THWIP!
+          </div>
+
+        </div>
+
+        <div class="gift-note">
+
+          <strong>
+            Spider-Man
+          </strong>
+
+          <span>
+            I mean... I couldn't possibly leave this one out.
+          </span>
+
+        </div>
+
+      </button>
+
+      <!-- ACTUAL BASKET -->
+
+      <div class="basket">
+
+        <div class="basket-rim"></div>
+
+      </div>
+
     </div>
-  </div>
 
-  <!-- GIFT BASKET -->
-  <div class="letter-section">
-    <p class="basket-title">🕷️ YOUR GIFT BASKET 🕷️</p>
-    <p class="basket-sub">curated specifically for one Isabel, delivered by Caleb</p>
-    <div class="basket-grid">
-      <div class="basket-item">
-        <div class="icon">🥤</div>
-        <div class="item-name">Alani Nu</div>
-        <div class="item-note">your go-to drink</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🍵</div>
-        <div class="item-name">Matcha</div>
-        <div class="item-note">because you have taste</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🌸</div>
-        <div class="item-name">Lilies</div>
-        <div class="item-note">your favorite flower</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🍉</div>
-        <div class="item-name">Watermelon</div>
-        <div class="item-note">peak fruit, good choice</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🎵</div>
-        <div class="item-name">Bad Bunny</div>
-        <div class="item-note">un verano sin ti forever</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🕷️</div>
-        <div class="item-name">Spider-Man</div>
-        <div class="item-note">the GOAT, no debate</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">🎬</div>
-        <div class="item-name">La La Land</div>
-        <div class="item-note">cinematic perfection</div>
-      </div>
-      <div class="basket-item">
-        <div class="icon">💛</div>
-        <div class="item-name">Caleb</div>
-        <div class="item-note">okay this one's free</div>
-      </div>
+    <div class="gift-footer">
+
+      <p>
+        I know it's not exactly the same as handing you a real one...
+      </p>
+
+      <span>
+        but I'll make up for that part. ❤️
+      </span>
+
     </div>
-  </div>
 
-  <!-- SURPRISE BUTTON -->
-  <div class="surprise-wrap letter-section">
-    <p style="color:#666;margin-bottom:1.5rem;font-size:0.95rem;">one more thing before you go...</p>
-    <button id="surprise-btn" onclick="revealNotice()">TAP IF YOU DARE 🕷️</button>
-  </div>
+  </section>
 
-  <!-- NOTICE SECTION -->
-  <div id="notice-section">
-    <p class="notice-title">THINGS I NOTICE ABOUT YOU</p>
-    <div id="notice-list"></div>
-  </div>
+  <!-- =========================
+       FINAL MESSAGE
+  ========================= -->
 
-  <!-- SIGN OFF -->
-  <div class="signoff">
-    here's to three months, and whatever comes next 🕷️
-    <span class="name">— Caleb</span>
-  </div>
+  <section class="final-section reveal">
+
+    <h2>
+      HAPPY THREE MONTHS
+    </h2>
+
+    <p>
+      Three months might sound small when you compare it to a lifetime.
+      But somehow, you've become such a big part of mine already.
+    </p>
+
+    <p style="margin-top: 1rem;">
+      Whatever the future ends up looking like,
+      I'm really glad you're part of it.
+    </p>
+
+    <div class="final-heart">
+      &lt;3
+    </div>
+
+    <p style="margin-top: 1.2rem; color: #dc143c;">
+      — Caleb
+    </p>
+
+  </section>
 
 </div>
 
 <script>
+
+  /* =========================
+     PASSWORD
+  ========================= */
+
   const PASSWORD = "912151222525152 1";
 
-  function normalizeInput(str) {
-    return str.replace(/\s+/g, '').toLowerCase();
+  function normalizeInput(value) {
+    return value
+      .replace(/\s+/g, '')
+      .toLowerCase();
   }
 
   function checkPassword() {
-    const input = document.getElementById('pw-input').value;
-    const normalized = normalizeInput(input);
+
+    const input = document.getElementById('pw-input');
+    const error = document.getElementById('pw-error');
+
+    const entered = normalizeInput(input.value);
     const correct = normalizeInput(PASSWORD);
-    if (normalized === correct) {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('letter-screen').style.display = 'block';
-      initScrollReveal();
-    } else {
-      document.getElementById('pw-error').textContent = "that's not it, Isabel 🕷️ try again";
-      document.getElementById('pw-input').style.borderColor = '#ff4444';
+
+    if (entered === correct) {
+
+      const passwordScreen =
+        document.getElementById('password-screen');
+
+      passwordScreen.classList.add('hidden');
+
       setTimeout(() => {
-        document.getElementById('pw-error').textContent = '';
-        document.getElementById('pw-input').style.borderColor = '#dc143c';
+
+        passwordScreen.style.display = 'none';
+
+        document.getElementById('letter-screen').style.display = 'block';
+
+        initializeRevealAnimations();
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
+
+      }, 800);
+
+    } else {
+
+      error.textContent =
+        "that's not it, Isabel. try again.";
+
+      input.style.borderColor = '#ff4b6e';
+
+      input.animate(
+        [
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-5px)' },
+          { transform: 'translateX(5px)' },
+          { transform: 'translateX(-3px)' },
+          { transform: 'translateX(0)' }
+        ],
+        {
+          duration: 350
+        }
+      );
+
+      setTimeout(() => {
+
+        error.textContent = '';
+        input.style.borderColor = '#333';
+
       }, 2000);
     }
+
   }
 
-  document.getElementById('pw-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') checkPassword();
-  });
+  document
+    .getElementById('pw-input')
+    .addEventListener('keydown', function(event) {
+
+      if (event.key === 'Enter') {
+        checkPassword();
+      }
+
+    });
+
+  /* =========================
+     HINT
+  ========================= */
 
   function toggleHint() {
-    const h = document.getElementById('hint-text');
-    h.style.display = h.style.display === 'none' ? 'block' : 'none';
+
+    const hint =
+      document.getElementById('hint-text');
+
+    if (hint.style.display === 'block') {
+
+      hint.style.display = 'none';
+
+    } else {
+
+      hint.style.display = 'block';
+
+    }
+
   }
 
-  function initScrollReveal() {
-    const sections = document.querySelectorAll('.letter-section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.15 });
-    sections.forEach(s => observer.observe(s));
-  }
+  /* =========================
+     SCROLL REVEALS
+  ========================= */
 
-  const notices = [
-    "The way you speak — there's a rhythm to it that I could honestly listen to for hours. You don't even have to be saying anything important.",
-    "Your laugh. Specifically your laugh. It's one of those that makes everyone else laugh too without knowing why.",
-    "The way your eyes glitter when you're excited about something. It's like they have their own lighting setup. Very unfair.",
-    "Your personality isn't just good — it's the kind that makes people feel lucky to be around you. I feel that every single time.",
-    "The fact that your favorite flower is a lily, your favorite movie is La La Land, and your favorite superhero is Spider-Man tells me everything I need to know. You have immaculate taste.",
-    "Three months in and you still somehow make everything better just by being you. That's the thing I notice most."
-  ];
+  function initializeRevealAnimations() {
 
-  function revealNotice() {
-    document.getElementById('surprise-btn').style.display = 'none';
-    const section = document.getElementById('notice-section');
-    section.style.display = 'block';
-    const list = document.getElementById('notice-list');
-    notices.forEach((text, i) => {
-      const div = document.createElement('div');
-      div.className = 'notice-item';
-      div.innerHTML = `<div class="notice-num">${i+1}.</div><div class="notice-text">${text}</div>`;
-      list.appendChild(div);
-      setTimeout(() => div.classList.add('pop'), i * 400);
+    const elements =
+      document.querySelectorAll('.reveal');
+
+    const observer =
+      new IntersectionObserver(
+
+        entries => {
+
+          entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add('visible');
+
+            }
+
+          });
+
+        },
+
+        {
+          threshold: 0.12
+        }
+
+      );
+
+    elements.forEach(element => {
+
+      observer.observe(element);
+
     });
+
   }
+
+  /* =========================
+     GIFT INTERACTION
+  ========================= */
+
+  function openGift(item) {
+
+    const alreadyOpen =
+      item.classList.contains('open');
+
+    document
+      .querySelectorAll('.gift-item')
+      .forEach(gift => {
+
+        gift.classList.remove('open');
+
+      });
+
+    if (!alreadyOpen) {
+
+      item.classList.add('open');
+
+    }
+
+  }
+
 </script>
+
 </body>
 </html>
