@@ -529,11 +529,15 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
         /* Timeline styles */
-        .timeline-card { max-width: 720px; margin: 26px auto; padding: 22px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid #222; }
-        .timeline-title { color: var(--red); font-family: "Bangers", cursive; font-size: 1.2rem; margin-bottom: 10px; }
-        .timeline-list { list-style: none; padding-left: 0; color: #ddd; }
-        .timeline-list li { padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.03); }
-        .timeline-list li strong { color: #fff; display: inline-block; width: 170px; font-weight: 700; }
+        .timeline-card { max-width: 820px; margin: 26px auto; padding: 22px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid #222; box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+        .timeline-title { color: var(--red); font-family: "Bangers", cursive; font-size: 1.2rem; margin-bottom: 12px; }
+        .timeline-list { list-style: none; padding-left: 0; color: #ddd; position: relative; }
+        .timeline-list::before { content: ''; position: absolute; left: 88px; top: 18px; bottom: 18px; width: 2px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+        .timeline-list li { padding: 18px 0; position: relative; display: flex; gap: 18px; align-items: flex-start; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease; }
+        .timeline-list li.visible { opacity: 1; transform: translateY(0); }
+        .timeline-list li::before { content: ''; position: absolute; left: 80px; top: 22px; width: 12px; height: 12px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 6px rgba(220,20,60,0.06); }
+        .timeline-list li strong { color: #fff; display: block; width: 160px; font-weight: 700; flex-shrink:0; }
+        .timeline-content { color: #ddd; flex:1; }
 
   /* MOBILE */
   @media (max-width: 600px) {
@@ -621,14 +625,12 @@
       </p>
 
       <p>I love you so, so much &lt;3</p>
-    <div style="text-align:center; margin-top:12px;">
-      <button id="skip-type-btn" class="song-play-btn" style="display:none; padding:8px 14px; font-size:.95rem; background:transparent; border:1px solid #333; color:var(--red);">SKIP</button>
-    </div>
     </article>
   </main>
 
   <!-- OUR SONG -->
-  <div style="text-align:center; margin: 28px 0 8px;">
+  <div style="text-align:center; margin: 28px 0 8px; display:flex; gap:12px; justify-content:center;">
+    <button id="skip-type-btn" class="song-play-btn" style="display:none;">SKIP</button>
     <button id="reveal-song-btn" class="song-play-btn" style="display:none;">REVEAL OUR SONG</button>
   </div>
   <section id="song-section" class="song-section hidden">
@@ -698,15 +700,15 @@
       <div class="timeline-card reveal">
         <h3 class="timeline-title">Our Timeline</h3>
         <ul class="timeline-list">
-          <li><strong>August 11, 2025</strong> — Met at the PAM orientation</li>
-          <li><strong>August 13, 2025</strong> — Met in 7th period Ms. Foster's class</li>
-          <li><strong>August 27, 2025</strong> — Messaged on Instagram for the first time</li>
-          <li><strong>February 2026</strong> — Started talking a lot more</li>
-          <li><strong>May 7, 2026</strong> — Held hands for the first time</li>
-          <li><strong>May 9, 2026</strong> — First "I love you"</li>
-          <li><strong>May 13, 2026</strong> — Started dating</li>
-          <li><strong>May 16, 2026</strong> — Volunteered at the play together</li>
-          <li><strong>June 10, 2026</strong> — One month anniversary and volunteered at graduation</li>
+          <li><strong>Aug 11, 2025</strong><div class="timeline-content">Met at the PAM orientation</div></li>
+          <li><strong>Aug 13, 2025</strong><div class="timeline-content">Met in 7th period Ms. Foster's class</div></li>
+          <li><strong>Aug 27, 2025</strong><div class="timeline-content">Messaged on Instagram for the first time</div></li>
+          <li><strong>Feb 2026</strong><div class="timeline-content">Started talking a lot more</div></li>
+          <li><strong>May 7, 2026</strong><div class="timeline-content">Held hands for the first time</div></li>
+          <li><strong>May 9, 2026</strong><div class="timeline-content">First "I love you"</div></li>
+          <li><strong>May 13, 2026</strong><div class="timeline-content">Started dating</div></li>
+          <li><strong>May 16, 2026</strong><div class="timeline-content">Volunteered at the play together</div></li>
+          <li><strong>June 10, 2026</strong><div class="timeline-content">One month anniversary and volunteered at graduation</div></li>
         </ul>
       </div>
     </section>
@@ -989,15 +991,6 @@
         vinyl.classList.add('playing');
       }
 
-      // Reveal the final section after a short delay
-      const final = document.getElementById('final-section');
-      if (final) {
-        setTimeout(() => {
-          final.classList.remove('hidden');
-          final.classList.add('reveal');
-            requestAnimationFrame(() => { final.classList.add('visible'); });
-                }, 600);
-              }
       });
     }
 
@@ -1018,14 +1011,22 @@
       requestAnimationFrame(() => {
             timelineSection.classList.add('visible');
             timelineSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // animate timeline items in sequence
+            const items = timelineSection.querySelectorAll('.timeline-list li');
+            items.forEach((li, idx) => {
+              setTimeout(() => li.classList.add('visible'), idx * 120);
+            });
       });
 
-      // also reveal the final message with the timeline
+      // also reveal the final message with the timeline (after items animate)
       const final = document.getElementById('final-section');
       if (final) {
-            final.classList.remove('hidden');
-            final.classList.add('reveal');
-            requestAnimationFrame(() => final.classList.add('visible'));
+            setTimeout(() => {
+              final.classList.remove('hidden');
+              final.classList.add('reveal');
+              requestAnimationFrame(() => final.classList.add('visible'));
+            }, 120 * (Math.min(10, timelineSection.querySelectorAll('.timeline-list li').length) + 1));
       }
     });
   }
