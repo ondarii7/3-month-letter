@@ -621,12 +621,15 @@
       </p>
 
       <p>I love you so, so much &lt;3</p>
+    <div style="text-align:center; margin-top:12px;">
+      <button id="skip-type-btn" class="song-play-btn" style="display:none; padding:8px 14px; font-size:.95rem; background:transparent; border:1px solid #333; color:var(--red);">SKIP</button>
+    </div>
     </article>
   </main>
 
   <!-- OUR SONG -->
   <div style="text-align:center; margin: 28px 0 8px;">
-    <button id="reveal-song-btn" class="song-play-btn">REVEAL OUR SONG</button>
+    <button id="reveal-song-btn" class="song-play-btn" style="display:none;">REVEAL OUR SONG</button>
   </div>
   <section id="song-section" class="song-section hidden">
 
@@ -911,10 +914,30 @@
     });
   }
 
+  let typingActive = false;
+  let _currentIv = null;
+
+  function completeTypewriter() {
+    typingActive = false;
+    if (_currentIv) { clearInterval(_currentIv); _currentIv = null; }
+    const first = document.querySelector('.letter-card');
+    if (!first) return;
+    const paras = Array.from(first.querySelectorAll('p'));
+    paras.forEach(p => { p.textContent = p.dataset.original || p.textContent; p.classList.remove('typing'); });
+    const skipBtn = document.getElementById('skip-type-btn');
+    if (skipBtn && skipBtn.parentNode) skipBtn.parentNode.removeChild(skipBtn);
+    const revealBtn = document.getElementById('reveal-song-btn');
+    if (revealBtn) revealBtn.style.display = '';
+  }
+
   async function startTypewriter() {
     prepareTypewriter();
     const first = document.querySelector('.letter-card');
     if (!first) return;
+    const skipBtn = document.getElementById('skip-type-btn');
+    const revealBtn = document.getElementById('reveal-song-btn');
+    if (skipBtn) { skipBtn.style.display = 'inline-block'; skipBtn.onclick = completeTypewriter; }
+    typingActive = true;
     const paras = Array.from(first.querySelectorAll('p'));
     for (let p of paras) {
       p.classList.add('typing');
@@ -922,13 +945,16 @@
       await new Promise(res => {
         let i = 0;
         const speed = 20 + Math.random() * 30; // ms per char
-        const iv = setInterval(() => {
+        _currentIv = setInterval(() => {
           p.textContent += text.charAt(i);
           i++;
-          if (i >= text.length) { clearInterval(iv); p.classList.remove('typing'); setTimeout(res, 200); }
+          if (i >= text.length) { clearInterval(_currentIv); _currentIv = null; p.classList.remove('typing'); setTimeout(res, 200); }
         }, speed);
       });
+      if (!typingActive) break;
     }
+    // finalize if not already completed
+    completeTypewriter();
   }
 
   // Reveal button logic
