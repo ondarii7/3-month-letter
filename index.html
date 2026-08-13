@@ -492,6 +492,16 @@
 
   .final-name { margin-top: 12px !important; color: var(--red) !important; }
 
+  /* Typewriter */
+  .typing::after {
+    content: '|';
+    display: inline-block;
+    margin-left: 6px;
+    opacity: 0.9;
+    animation: blink 1s steps(2, start) infinite;
+  }
+  @keyframes blink { to { opacity: 0 } }
+
   /* REVEALS */
     .song-section.hidden { display: none; }
     .final-section.hidden { display: none; }
@@ -856,6 +866,48 @@
     }, 200);
   }
 
+  // Typewriter setup for final message
+  let _typewriterInitialized = false;
+  function prepareTypewriter() {
+    if (_typewriterInitialized) return;
+    _typewriterInitialized = true;
+    const final = document.getElementById('final-section');
+    if (!final) return;
+    const paras = Array.from(final.querySelectorAll('p')).filter(p => !p.classList.contains('final-name'));
+    paras.forEach(p => {
+      p.dataset.original = p.textContent.trim();
+      p.textContent = '';
+    });
+    const name = final.querySelector('.final-name');
+    if (name) name.style.opacity = '0';
+  }
+
+  async function startTypewriter() {
+    prepareTypewriter();
+    const final = document.getElementById('final-section');
+    if (!final) return;
+    const paras = Array.from(final.querySelectorAll('p')).filter(p => !p.classList.contains('final-name'));
+    for (let p of paras) {
+      p.classList.add('typing');
+      const text = p.dataset.original || '';
+      await new Promise(res => {
+        let i = 0;
+        const speed = 30 + Math.random() * 25; // ms per char
+        const iv = setInterval(() => {
+          p.textContent += text.charAt(i);
+          i++;
+          if (i >= text.length) { clearInterval(iv); p.classList.remove('typing'); setTimeout(res, 300); }
+        }, speed);
+      });
+    }
+    const name = final.querySelector('.final-name');
+    if (name) {
+      name.style.transition = 'opacity 500ms ease, transform 500ms ease';
+      name.style.opacity = '1';
+      name.style.transform = 'translateY(0)';
+    }
+  }
+
   // Reveal button logic
   const revealBtn = document.getElementById('reveal-song-btn');
   const songSection = document.getElementById('song-section');
@@ -894,9 +946,13 @@
         setTimeout(() => {
           final.classList.remove('hidden');
           final.classList.add('reveal');
-          requestAnimationFrame(() => final.classList.add('visible'));
-        }, 600);
-      }
+            requestAnimationFrame(() => {
+              final.classList.add('visible');
+              // start typewriter after final becomes visible
+              startTypewriter();
+            });
+          }, 600);
+        }
     });
   }
 </script>
