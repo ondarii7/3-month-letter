@@ -754,6 +754,47 @@
   }
 
   /* SONG */
+  function playRevealSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioCtx();
+      const duration = 0.45; // seconds
+      const now = ctx.currentTime;
+
+      // create decaying white-noise burst for a vinyl-like pop
+      const bufferSize = Math.floor(ctx.sampleRate * duration);
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        // random noise that decays over time
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      // gentle lowpass to make it feel vinyl-y
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(2200, now);
+
+      // quick gain envelope
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.001, now);
+      g.gain.exponentialRampToValueAtTime(0.8, now + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noise.connect(lp).connect(g).connect(ctx.destination);
+      noise.start(now);
+      noise.stop(now + duration);
+
+      // Auto-close context after sound finishes on browsers that support close()
+      setTimeout(() => { try { ctx.close(); } catch (e) {} }, (duration + 0.1) * 1000);
+    } catch (e) {
+      // audio not available — ignore silently
+      console.warn('AudioContext not available', e);
+    }
+  }
+
   let songStarted = false;
 
   function startSong() {
@@ -788,6 +829,9 @@
   if (revealBtn && songSection) {
     revealBtn.addEventListener('click', () => {
       revealBtn.disabled = true;
+      // Play a short reveal sound (synthesized) — user gesture ensures playback
+      playRevealSound();
+
       // Animate button out then hide it
       const outAnim = revealBtn.animate(
         [
