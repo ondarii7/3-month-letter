@@ -808,6 +808,12 @@
         songSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
 
+      // Start vinyl spinning on reveal
+      const vinyl = document.getElementById('vinyl');
+      if (vinyl) {
+        vinyl.classList.add('playing');
+      }
+
       // Reveal the final section after a short delay
       const final = document.getElementById('final-section');
       if (final) {
