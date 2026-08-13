@@ -3,28 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>For Isabel</title>
-
+<title>For Isabel 🕷️</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap');
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  :root {
+    --red: #dc143c;
+    --red-bright: #ff3157;
+    --bg: #080808;
+    --panel: #111;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
-    background: #080808;
-    color: white;
-    font-family: 'Comic Neue', cursive;
     min-height: 100vh;
     overflow-x: hidden;
+    background: radial-gradient(circle at 50% 8%, rgba(220,20,60,0.08), transparent 35%), #080808;
+    color: white;
+    font-family: "Comic Neue", cursive;
   }
 
   body::before {
@@ -33,11 +31,9 @@
     inset: 0;
     z-index: 0;
     pointer-events: none;
-
     background-image:
-      linear-gradient(rgba(220,20,60,0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(220,20,60,0.045) 1px, transparent 1px);
-
+      linear-gradient(rgba(220,20,60,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220,20,60,.035) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
@@ -47,1546 +43,494 @@
     inset: 0;
     z-index: 0;
     pointer-events: none;
-
-    background:
-      radial-gradient(
-        circle at center,
-        rgba(220,20,60,0.065),
-        transparent 62%
-      );
+    background: linear-gradient(rgba(255,255,255,.015) 50%, transparent 50%);
+    background-size: 100% 4px;
+    opacity: .08;
   }
 
-  /* =========================
-     FLOATING WEB ELEMENTS
-  ========================= */
-
-  .floating-web {
-    position: fixed;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.08;
-  }
-
-  .web-left {
-    left: -30px;
-    top: -30px;
-    width: 150px;
-    height: 150px;
-    border-right: 2px solid #dc143c;
-    border-bottom: 2px solid #dc143c;
-    border-radius: 0 0 100% 0;
-  }
-
-  .web-right {
-    right: -30px;
-    bottom: -30px;
-    width: 150px;
-    height: 150px;
-    border-left: 2px solid #dc143c;
-    border-top: 2px solid #dc143c;
-    border-radius: 100% 0 0 0;
-  }
-
-  /* =========================
-     PASSWORD SCREEN
-  ========================= */
-
+  /* PASSWORD SCREEN */
   #password-screen {
     position: fixed;
     inset: 0;
     z-index: 100;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     padding: 2rem;
     text-align: center;
-
-    background: #080808;
-
-    transition:
-      opacity 0.8s ease,
-      visibility 0.8s ease;
+    background: radial-gradient(circle at center, rgba(220,20,60,.07), transparent 45%), #080808;
+    transition: opacity .8s ease, visibility .8s ease;
   }
 
-  #password-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-  }
+  #password-screen.hidden { opacity: 0; visibility: hidden; }
 
   .password-spider {
-    position: relative;
-    width: 90px;
-    height: 90px;
-    margin-bottom: 1.4rem;
-
-    animation: pulse 2s ease-in-out infinite;
+    font-size: 6rem;
+    line-height: 1;
+    margin-bottom: 1.3rem;
+    filter: drop-shadow(0 0 14px rgba(220,20,60,.25)) drop-shadow(0 0 30px rgba(220,20,60,.1));
+    animation: spiderFloat 3s ease-in-out infinite;
   }
 
-  .spider-body {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 28px;
-    height: 45px;
-
-    transform: translate(-50%, -50%);
-
-    border-radius: 50%;
-    background: #dc143c;
-
-    box-shadow:
-      0 0 20px rgba(220,20,60,0.35);
-  }
-
-  .spider-head {
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    width: 25px;
-    height: 25px;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-    background: #dc143c;
-  }
-
-  .spider-leg {
-    position: absolute;
-    width: 38px;
-    height: 5px;
-
-    background: #dc143c;
-    border-radius: 10px;
-  }
-
-  .leg-1 {
-    left: 0;
-    top: 28px;
-    transform: rotate(25deg);
-  }
-
-  .leg-2 {
-    left: 0;
-    top: 42px;
-    transform: rotate(-25deg);
-  }
-
-  .leg-3 {
-    right: 0;
-    top: 28px;
-    transform: rotate(-25deg);
-  }
-
-  .leg-4 {
-    right: 0;
-    top: 42px;
-    transform: rotate(25deg);
-  }
-
-  .leg-5 {
-    left: 3px;
-    top: 13px;
-    transform: rotate(45deg);
-  }
-
-  .leg-6 {
-    right: 3px;
-    top: 13px;
-    transform: rotate(-45deg);
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(1.08);
-    }
+  @keyframes spiderFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-7px) rotate(2deg); }
   }
 
   #password-screen h1 {
-    font-family: 'Bangers', cursive;
-    font-size: clamp(2.2rem, 8vw, 3.3rem);
+    color: var(--red);
+    font-family: "Bangers", cursive;
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
     letter-spacing: 5px;
-
-    color: #dc143c;
-
-    text-shadow:
-      3px 3px 0 #000,
-      0 0 25px rgba(220,20,60,0.35);
-
-    margin-bottom: 0.7rem;
+    text-shadow: 4px 4px 0 #000, 0 0 25px rgba(220,20,60,.3);
   }
 
   #password-screen p {
-    color: #888;
     max-width: 340px;
-
+    margin-top: .5rem;
+    margin-bottom: 1.4rem;
+    color: #888;
     line-height: 1.7;
-    font-size: 0.98rem;
-
-    margin-bottom: 1.5rem;
+    font-size: .98rem;
   }
 
   #pw-input {
-    width: 100%;
-    max-width: 320px;
-
-    padding: 0.9rem 1.1rem;
-
+    width: min(320px, 100%);
+    padding: 13px 16px;
     border: 2px solid #333;
     border-radius: 12px;
-
+    outline: none;
     background: #111;
     color: white;
-
-    font-family: 'Comic Neue', cursive;
-    font-size: 1rem;
+    font-family: "Comic Neue", cursive;
     text-align: center;
-
-    outline: none;
-
-    transition:
-      border-color 0.25s ease,
-      box-shadow 0.25s ease;
+    letter-spacing: 2px;
+    transition: border-color .25s ease, box-shadow .25s ease;
   }
 
   #pw-input:focus {
-    border-color: #dc143c;
-    box-shadow: 0 0 20px rgba(220,20,60,0.18);
+    border-color: var(--red);
+    box-shadow: 0 0 0 4px rgba(220,20,60,.05), 0 0 20px rgba(220,20,60,.15);
   }
 
   #unlock-btn {
-    margin-top: 1rem;
-
-    padding: 0.85rem 2.3rem;
-
+    margin-top: 12px;
+    padding: 12px 30px;
     border: none;
     border-radius: 12px;
-
-    background: #dc143c;
+    background: var(--red);
     color: white;
-
-    font-family: 'Bangers', cursive;
+    font-family: "Bangers", cursive;
     font-size: 1.15rem;
     letter-spacing: 2px;
-
     cursor: pointer;
-
-    transition:
-      transform 0.2s ease,
-      background 0.2s ease,
-      box-shadow 0.2s ease;
+    transition: transform .2s ease, background .2s ease;
   }
 
-  #unlock-btn:hover {
-    background: #f01947;
-    transform: translateY(-2px);
+  #unlock-btn:hover { background: var(--red-bright); transform: translateY(-2px); }
 
-    box-shadow:
-      0 8px 25px rgba(220,20,60,0.2);
-  }
+  #pw-error { min-height: 21px; margin-top: 8px; color: #ff5874; font-size: .9rem; }
 
-  #pw-error {
-    min-height: 1.3rem;
-    margin-top: 0.7rem;
-
-    color: #ff4b6e;
-    font-size: 0.9rem;
-  }
-
-  .hint-toggle {
-    margin-top: 0.7rem;
-
-    color: #555;
-    font-size: 0.83rem;
-
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  .hint-toggle:hover {
-    color: #888;
-  }
+  .hint-toggle { margin-top: 7px; color: #555; font-size: .82rem; cursor: pointer; text-decoration: underline; }
+  .hint-toggle:hover { color: #888; }
 
   #hint-text {
     display: none;
-
-    max-width: 300px;
-    margin-top: 0.7rem;
-
-    color: #777;
-    font-size: 0.8rem;
+    max-width: 305px;
+    margin-top: 8px;
+    color: #707070;
+    font-size: .79rem;
     line-height: 1.6;
   }
 
-  /* =========================
-     MAIN SITE
-  ========================= */
+  /* MAIN */
+  #letter-screen { position: relative; z-index: 1; display: none; }
 
-  #letter-screen {
-    position: relative;
-    z-index: 2;
-    display: none;
-  }
-
-  /* =========================
-     HERO
-  ========================= */
-
+  /* HERO */
   .hero {
-    min-height: 100vh;
-
     position: relative;
-
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    padding: 2rem;
-
+    padding: 30px;
     text-align: center;
   }
 
   .hero-spider {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 1.2rem;
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 15px rgba(220,20,60,.18));
+    animation: heroSpiderFloat 3s ease-in-out infinite;
+  }
 
-    animation: pulse 2s ease-in-out infinite;
+  @keyframes heroSpiderFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
   }
 
   .hero h1 {
-    font-family: 'Bangers', cursive;
-
+    color: var(--red);
+    font-family: "Bangers", cursive;
     font-size: clamp(3.2rem, 11vw, 6rem);
     letter-spacing: 6px;
-
-    color: #dc143c;
-
-    text-shadow:
-      4px 4px 0 #000,
-      0 0 30px rgba(220,20,60,0.35);
-
-    margin-bottom: 0.7rem;
+    text-shadow: 5px 5px 0 #000, 0 0 35px rgba(220,20,60,.3);
   }
 
-  .hero-subtitle {
-    color: #999;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
+  .hero-subtitle { margin-top: 8px; color: #999; font-size: 1rem; }
 
-  .hero-note {
-    max-width: 360px;
-    color: #555;
-
-    line-height: 1.8;
-    font-size: 0.9rem;
-  }
+  .hero-note { max-width: 360px; margin-top: 24px; color: #555; font-size: .9rem; line-height: 1.8; }
 
   .scroll-hint {
     position: absolute;
-    bottom: 2rem;
-
+    bottom: 28px;
     color: #555;
-    font-size: 0.85rem;
-
-    animation: bounce 1.5s ease-in-out infinite;
+    font-size: .82rem;
+    animation: bounce 1.6s ease-in-out infinite;
   }
 
   @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-
-    50% {
-      transform: translateY(6px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(7px); }
   }
 
-  /* =========================
-     LETTER
-  ========================= */
-
-  .letter-container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 1.4rem;
-  }
+  /* LETTER */
+  .letter-container { max-width: 760px; margin: auto; padding: 0 18px; }
 
   .letter-card {
     position: relative;
-
-    padding: clamp(2rem, 6vw, 4rem);
-
-    border: 1px solid #272727;
-    border-radius: 20px;
-
-    background:
-      linear-gradient(
-        145deg,
-        rgba(255,255,255,0.025),
-        rgba(255,255,255,0.008)
-      );
-
-    box-shadow:
-      0 25px 80px rgba(0,0,0,0.45),
-      inset 0 0 45px rgba(220,20,60,0.025);
+    padding: clamp(28px, 6vw, 58px);
+    border: 1px solid #292929;
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(255,255,255,.025), rgba(255,255,255,.008));
+    box-shadow: 0 30px 90px rgba(0,0,0,.45), inset 0 0 50px rgba(220,20,60,.02);
   }
 
   .letter-card::before {
     content: "";
-
     position: absolute;
-    top: 20px;
-    right: 20px;
-
-    width: 30px;
-    height: 30px;
-
-    border-top: 2px solid #dc143c;
-    border-right: 2px solid #dc143c;
-
-    opacity: 0.5;
+    top: 18px; right: 18px;
+    width: 30px; height: 30px;
+    border-top: 2px solid var(--red);
+    border-right: 2px solid var(--red);
+    opacity: .4;
   }
 
-  .letter-label {
-    font-family: 'Bangers', cursive;
-
-    color: #dc143c;
-
-    font-size: 0.95rem;
-    letter-spacing: 4px;
-
-    margin-bottom: 2rem;
+  .letter-card::after {
+    content: "";
+    position: absolute;
+    bottom: 18px; left: 18px;
+    width: 30px; height: 30px;
+    border-bottom: 2px solid var(--red);
+    border-left: 2px solid var(--red);
+    opacity: .25;
   }
 
-  .letter-card p {
-    color: #ddd;
+  .letter-label { margin-bottom: 25px; color: var(--red); font-family: "Bangers", cursive; font-size: .92rem; letter-spacing: 4px; }
 
-    font-size: clamp(1.05rem, 2vw, 1.18rem);
-    line-height: 2;
-  }
+  .letter-card p { color: #ddd; font-size: clamp(1.04rem, 2vw, 1.18rem); line-height: 2; }
+  .letter-card p + p { margin-top: 1.55rem; }
 
-  .letter-card p + p {
-    margin-top: 1.6rem;
-  }
-
-  .emphasis {
-    color: white;
-    font-weight: 700;
-  }
+  .emphasis { color: white; font-weight: 700; }
 
   .letter-heart {
     display: block;
-
-    margin-top: 2.7rem;
-
+    margin-top: 35px;
+    color: var(--red);
     text-align: center;
-
-    color: #dc143c;
-
     font-size: 2rem;
-
     animation: heartPulse 2s ease-in-out infinite;
   }
 
   @keyframes heartPulse {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.85;
-    }
-
-    50% {
-      transform: scale(1.12);
-      opacity: 1;
-    }
+    0%, 100% { transform: scale(1); opacity: .85; }
+    50% { transform: scale(1.12); opacity: 1; }
   }
 
-  /* =========================
-     GIFT INTRO
-  ========================= */
-
-  .gift-section {
+  /* OUR SONG */
+  .song-section {
     max-width: 900px;
-    margin: 0 auto;
-    padding: 7rem 1.5rem 3rem;
-  }
-
-  .gift-intro {
+    margin: auto;
+    padding: 135px 18px 85px;
     text-align: center;
-    margin-bottom: 3rem;
   }
 
-  .gift-kicker {
-    color: #dc143c;
+  .song-kicker { color: var(--red); font-family: "Bangers", cursive; font-size: .9rem; letter-spacing: 4px; }
 
-    font-family: 'Bangers', cursive;
-    font-size: 0.9rem;
-    letter-spacing: 4px;
-
-    margin-bottom: 0.7rem;
-  }
-
-  .gift-intro h2 {
-    font-family: 'Bangers', cursive;
-
+  .song-title {
+    margin-top: 6px;
     color: white;
-
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-family: "Bangers", cursive;
+    font-size: clamp(2.8rem, 8vw, 4.5rem);
     letter-spacing: 4px;
-
-    text-shadow: 3px 3px 0 #000;
+    text-shadow: 4px 4px 0 #000;
   }
 
-  .gift-intro p {
-    max-width: 500px;
-    margin: 1rem auto 0;
+  .song-artist { margin-top: 3px; color: #777; font-size: .98rem; }
 
-    color: #888;
+  .song-intro { max-width: 500px; margin: 25px auto 48px; color: #888; line-height: 1.8; }
 
-    line-height: 1.8;
-  }
-
-  /* =========================
-     GIFT STAGE
-  ========================= */
-
-  .gift-stage {
+  /* record */
+  .record-area {
     position: relative;
-
-    width: min(100%, 780px);
-    height: 600px;
-
-    margin: 0 auto;
-  }
-
-  .basket-handle {
-    position: absolute;
-
-    left: 50%;
-    bottom: 145px;
-
-    transform: translateX(-50%);
-
-    width: 440px;
-    height: 250px;
-
-    border: 20px solid #71411f;
-    border-bottom: none;
-
-    border-radius: 230px 230px 0 0;
-
-    z-index: 1;
-
-    box-shadow:
-      inset 0 5px 8px rgba(255,255,255,0.05);
-  }
-
-  .basket {
-    position: absolute;
-
-    left: 50%;
-    bottom: 35px;
-
-    width: 500px;
-    height: 190px;
-
-    transform: translateX(-50%);
-
-    border-radius: 0 0 115px 115px;
-
-    overflow: hidden;
-
-    background:
-      repeating-linear-gradient(
-        90deg,
-        #8b542e 0 15px,
-        #6d3d20 15px 22px
-      );
-
-    box-shadow:
-      inset 0 12px 18px rgba(255,255,255,0.05),
-      0 25px 40px rgba(0,0,0,0.45);
-
-    z-index: 8;
-  }
-
-  .basket::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-      repeating-linear-gradient(
-        0deg,
-        rgba(255,255,255,0.035) 0 10px,
-        transparent 10px 23px
-      );
-
-    mix-blend-mode: overlay;
-  }
-
-  .basket-rim {
-    position: absolute;
-
-    left: 50%;
-    top: -15px;
-
-    transform: translateX(-50%);
-
-    width: 530px;
-    height: 42px;
-
-    border-radius: 50%;
-
-    background: #9a6036;
-
-    box-shadow:
-      inset 0 5px 8px rgba(255,255,255,0.07),
-      0 5px 10px rgba(0,0,0,0.3);
-
-    z-index: 10;
-  }
-
-  /* =========================
-     GIFT ITEMS
-  ========================= */
-
-  .gift-item {
-    position: absolute;
-
-    border: none;
-    background: transparent;
-
-    cursor: pointer;
-
-    padding: 0;
-
-    z-index: 12;
-
-    transition:
-      transform 0.45s cubic-bezier(.2,.8,.2,1),
-      filter 0.25s ease;
-  }
-
-  .gift-item:hover {
-    filter: brightness(1.08);
-  }
-
-  .gift-item.open {
-    z-index: 30;
-
-    transform:
-      translateY(-70px)
-      scale(1.12)
-      rotate(0deg) !important;
-  }
-
-  .gift-note {
-    position: absolute;
-
-    top: calc(100% + 15px);
-    left: 50%;
-
-    width: 225px;
-
-    transform:
-      translate(-50%, 10px)
-      scale(0.9);
-
-    padding: 14px 16px;
-
-    opacity: 0;
-    pointer-events: none;
-
-    background: #f5ead7;
-    color: #30211a;
-
-    border-radius: 8px;
-
-    box-shadow:
-      0 12px 30px rgba(0,0,0,0.4);
-
-    transition:
-      opacity 0.35s ease,
-      transform 0.35s ease;
-  }
-
-  .gift-note::before {
-    content: "";
-
-    position: absolute;
-
-    top: -8px;
-    left: 50%;
-
-    width: 16px;
-    height: 16px;
-
-    transform: translateX(-50%) rotate(45deg);
-
-    background: #f5ead7;
-  }
-
-  .gift-item.open .gift-note {
-    opacity: 1;
-
-    transform:
-      translate(-50%, 0)
-      scale(1);
-  }
-
-  .gift-note strong {
-    display: block;
-
-    color: #b31337;
-
-    font-family: 'Bangers', cursive;
-
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-
-    margin-bottom: 4px;
-  }
-
-  .gift-note span {
-    display: block;
-
-    font-size: 0.82rem;
-    line-height: 1.5;
-  }
-
-  /* =========================
-     ITEM POSITIONS
-  ========================= */
-
-  .gift-alani {
-    left: 12%;
-    bottom: 165px;
-    transform: rotate(-10deg);
-  }
-
-  .gift-matcha {
-    left: 29%;
-    bottom: 155px;
-    transform: rotate(5deg);
-  }
-
-  .gift-lily {
-    left: 43%;
-    bottom: 202px;
-    transform: rotate(-7deg);
-  }
-
-  .gift-watermelon {
-    right: 28%;
-    bottom: 165px;
-    transform: rotate(10deg);
-  }
-
-  .gift-music {
-    right: 13%;
-    bottom: 175px;
-    transform: rotate(-8deg);
-  }
-
-  .gift-movie {
-    left: 35%;
-    bottom: 245px;
-    transform: rotate(9deg);
-  }
-
-  .gift-spiderman {
-    right: 34%;
-    bottom: 230px;
-    transform: rotate(-12deg);
-  }
-
-  /* =========================
-     ALANI-STYLE CAN
-  ========================= */
-
-  .alani-can {
-    position: relative;
-
-    width: 72px;
-    height: 150px;
-  }
-
-  .can-body {
-    width: 72px;
-    height: 140px;
-
-    border-radius: 17px 17px 13px 13px;
-
-    background:
-      linear-gradient(
-        90deg,
-        #c9143e 0%,
-        #ed3156 45%,
-        #b80e33 100%
-      );
-
-    box-shadow:
-      inset -7px 0 12px rgba(0,0,0,0.18),
-      0 15px 20px rgba(0,0,0,0.35);
-
+    width: 350px;
+    height: 350px;
+    margin: 0 auto 34px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    color: white;
   }
 
-  .can-top,
-  .can-bottom {
+  .record-shadow {
     position: absolute;
-    left: 4px;
-
-    width: 64px;
-    height: 10px;
-
+    width: 280px; height: 70px;
+    bottom: 18px;
     border-radius: 50%;
+    background: rgba(0,0,0,.55);
+    filter: blur(20px);
   }
 
-  .can-top {
-    top: 0;
-    background: #ddd;
-  }
-
-  .can-bottom {
-    bottom: 0;
-    background: #777;
-  }
-
-  .can-brand {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-  }
-
-  .can-flavor {
-    margin-top: 6px;
-
-    font-family: Georgia, serif;
-
-    font-size: 13px;
-  }
-
-  .can-small {
-    margin-top: 8px;
-
-    font-size: 6px;
-    letter-spacing: 1px;
-  }
-
-  /* =========================
-     MATCHA
-  ========================= */
-
-  .matcha-cup {
+  .vinyl {
     position: relative;
-
-    width: 105px;
-    height: 120px;
-  }
-
-  .matcha-cup-body {
-    position: absolute;
-
-    left: 10px;
-    bottom: 0;
-
-    width: 85px;
-    height: 92px;
-
-    border-radius: 12px 12px 35px 35px;
-
-    background: #f3ede1;
-
-    box-shadow:
-      inset -8px 0 10px rgba(0,0,0,0.08),
-      0 12px 20px rgba(0,0,0,0.3);
-  }
-
-  .matcha-liquid {
-    position: absolute;
-
-    left: 17px;
-    top: 12px;
-
-    width: 71px;
-    height: 40px;
-
+    width: 275px; height: 275px;
     border-radius: 50%;
-
-    background: #849d57;
-
-    z-index: 2;
-  }
-
-  .matcha-foam {
-    position: absolute;
-
-    left: 27px;
-    top: 20px;
-
-    width: 50px;
-    height: 22px;
-
-    border-radius: 50%;
-
-    background: #a8bc7e;
-
+    background: repeating-radial-gradient(circle at center, #191919 0 2px, #111 3px 5px);
+    box-shadow: 12px 20px 38px rgba(0,0,0,.5), inset 0 0 35px rgba(255,255,255,.025);
     z-index: 3;
+    transition: transform .4s ease;
   }
 
-  .matcha-handle {
-    position: absolute;
-
-    right: 0;
-    top: 38px;
-
-    width: 30px;
-    height: 42px;
-
-    border: 8px solid #f3ede1;
-    border-left: none;
-
-    border-radius: 0 25px 25px 0;
-  }
-
-  /* =========================
-     LILY
-  ========================= */
-
-  .lily-flower {
-    position: relative;
-
-    width: 110px;
-    height: 175px;
-  }
-
-  .petal {
-    position: absolute;
-
-    left: 35px;
-    top: 15px;
-
-    width: 40px;
-    height: 75px;
-
-    border-radius: 70% 30% 70% 30%;
-
-    background: #fffaf7;
-
-    transform-origin: 50% 85%;
-
-    box-shadow:
-      0 5px 12px rgba(0,0,0,0.2);
-  }
-
-  .p1 {
-    transform: rotate(0deg);
-  }
-
-  .p2 {
-    transform: rotate(72deg);
-  }
-
-  .p3 {
-    transform: rotate(144deg);
-  }
-
-  .p4 {
-    transform: rotate(216deg);
-  }
-
-  .p5 {
-    transform: rotate(288deg);
-  }
-
-  .lily-center {
-    position: absolute;
-
-    left: 51px;
-    top: 47px;
-
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    background: #e8bc49;
-
-    z-index: 4;
-  }
-
-  .lily-stem {
-    position: absolute;
-
-    left: 52px;
-    top: 78px;
-
-    width: 7px;
-    height: 90px;
-
-    border-radius: 10px;
-
-    background: #4f7a48;
-
-    transform: rotate(5deg);
-  }
-
-  /* =========================
-     WATERMELON
-  ========================= */
-
-  .watermelon-slice {
-    position: relative;
-
-    width: 120px;
-    height: 75px;
-
-    overflow: hidden;
-
-    border-radius: 120px 120px 0 0;
-
-    background: #d92a3f;
-
-    box-shadow:
-      0 12px 18px rgba(0,0,0,0.3);
-  }
-
-  .watermelon-rind {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 16px;
-
-    background: #3f7d48;
-  }
-
-  .watermelon-rind::after {
+  .vinyl::before {
     content: "";
-
     position: absolute;
-
-    left: 0;
-    bottom: 8px;
-
-    width: 100%;
-    height: 5px;
-
-    background: #e6e3ad;
+    inset: 10px;
+    border-radius: 50%;
+    border: 1px solid #2e2e2e;
   }
 
-  .seed {
+  .vinyl::after {
+    content: "";
     position: absolute;
-
-    width: 5px;
-    height: 10px;
-
+    inset: 42px;
     border-radius: 50%;
-
-    background: #241b19;
+    border: 1px solid rgba(255,255,255,.045);
   }
 
-  .s1 {
-    left: 28px;
-    top: 35px;
-    transform: rotate(20deg);
-  }
+  .vinyl.playing { animation: spin 4s linear infinite; }
 
-  .s2 {
-    left: 50px;
-    top: 22px;
-    transform: rotate(-20deg);
-  }
-
-  .s3 {
-    left: 74px;
-    top: 38px;
-    transform: rotate(15deg);
-  }
-
-  .s4 {
-    left: 92px;
-    top: 25px;
-    transform: rotate(-15deg);
-  }
-
-  /* =========================
-     RECORD
-  ========================= */
-
-  .record {
-    position: relative;
-
-    width: 120px;
-    height: 120px;
-
-    border-radius: 50%;
-
-    background:
-      repeating-radial-gradient(
-        circle,
-        #171717 0 4px,
-        #101010 5px 7px
-      );
-
-    box-shadow:
-      0 15px 25px rgba(0,0,0,0.4);
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   .record-label {
     position: absolute;
-
-    left: 50%;
-    top: 50%;
-
+    left: 50%; top: 50%;
+    width: 126px; height: 126px;
     transform: translate(-50%, -50%);
-
-    width: 43px;
-    height: 43px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    overflow: hidden;
     border-radius: 50%;
+    border: 4px solid #141414;
+    box-shadow: 0 0 0 2px #343434;
+    z-index: 4;
+  }
 
-    background: #b4143d;
-
-    font-family: 'Bangers', cursive;
-
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+  .record-label img {
+    width: 100%; height: 100%;
+    display: block;
+    object-fit: cover;
   }
 
   .record-hole {
     position: absolute;
-
-    left: 50%;
-    top: 50%;
-
+    left: 50%; top: 50%;
+    width: 8px; height: 8px;
     transform: translate(-50%, -50%);
-
-    width: 7px;
-    height: 7px;
-
     border-radius: 50%;
-
-    background: #111;
+    background: #080808;
+    z-index: 6;
   }
 
-  /* =========================
-     MOVIE TICKET
-  ========================= */
-
-  .movie-ticket {
-    width: 130px;
-    height: 85px;
-
-    padding: 10px;
-
-    border-radius: 6px;
-
-    background: #f1dfc0;
-    color: #3a2924;
-
-    border-left: 9px dotted #9b7753;
-    border-right: 9px dotted #9b7753;
-
-    box-shadow:
-      0 12px 20px rgba(0,0,0,0.35);
+  .record-glint {
+    position: absolute;
+    left: 24px; top: 35px;
+    width: 150px; height: 30px;
+    transform: rotate(-25deg);
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    filter: blur(5px);
+    z-index: 5;
+    pointer-events: none;
   }
 
-  .ticket-top {
-    font-size: 7px;
-    letter-spacing: 2px;
+  .needle {
+    position: absolute;
+    right: -3px; top: 47px;
+    width: 110px; height: 5px;
+    border-radius: 5px;
+    background: #888;
+    transform-origin: right center;
+    transform: rotate(25deg);
+    z-index: 10;
+    transition: transform .6s ease;
   }
 
-  .ticket-title {
-    margin-top: 6px;
-
-    font-family: Georgia, serif;
-
-    font-size: 14px;
-    line-height: 1;
-  }
-
-  .ticket-bottom {
-    margin-top: 7px;
-
-    font-size: 8px;
-    letter-spacing: 5px;
-  }
-
-  /* =========================
-     SPIDER-MAN CARD
-  ========================= */
-
-  .comic-card {
-    position: relative;
-
-    width: 110px;
-    height: 145px;
-
-    overflow: hidden;
-
-    border: 3px solid #111;
-    border-radius: 8px;
-
-    background:
-      radial-gradient(
-        circle at center,
-        #ef1b45,
-        #7e0a26
-      );
-
-    box-shadow:
-      5px 8px 0 #111,
-      0 15px 20px rgba(0,0,0,0.35);
-  }
-
-  .comic-card::before {
+  .needle::after {
     content: "";
-
     position: absolute;
-    inset: 0;
-
-    background:
-      linear-gradient(
-        30deg,
-        transparent 48%,
-        rgba(0,0,0,0.35) 49%,
-        transparent 51%
-      ),
-      linear-gradient(
-        -30deg,
-        transparent 48%,
-        rgba(0,0,0,0.35) 49%,
-        transparent 51%
-      );
+    left: 3px; bottom: -5px;
+    width: 13px; height: 8px;
+    border-radius: 3px;
+    background: #aaa;
   }
 
-  .spider-symbol {
+  .needle-head {
     position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 60px;
-    height: 80px;
-
-    transform: translate(-50%, -50%);
-  }
-
-  .spider-symbol .body {
-    position: absolute;
-
-    left: 23px;
-    top: 25px;
-
-    width: 15px;
-    height: 28px;
-
+    right: -6px; top: -6px;
+    width: 16px; height: 16px;
     border-radius: 50%;
-
-    background: #111;
+    background: #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,.4);
   }
 
-  .comic-leg {
+  .vinyl.playing ~ .needle { transform: rotate(44deg); }
+
+  .record-glow {
     position: absolute;
-
-    width: 30px;
-    height: 6px;
-
-    border-radius: 10px;
-
-    background: #111;
+    width: 245px; height: 245px;
+    border-radius: 50%;
+    background: rgba(220,20,60,.08);
+    filter: blur(48px);
+    opacity: 0;
+    transition: opacity .7s ease;
+    z-index: 1;
   }
 
-  .comic-l1 {
-    left: 0;
-    top: 27px;
-    transform: rotate(25deg);
+  .vinyl.playing ~ .record-glow { opacity: 1; }
+
+  .song-message { max-width: 500px; margin: 25px auto 0; color: #aaa; font-size: 1rem; line-height: 1.9; }
+
+  .song-action { margin-top: 30px; }
+
+  .song-play-btn {
+    padding: 12px 28px;
+    border: 1px solid var(--red);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--red);
+    font-family: "Bangers", cursive;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, transform .25s ease;
   }
 
-  .comic-l2 {
-    left: 0;
-    top: 45px;
-    transform: rotate(-25deg);
+  .song-play-btn:hover { background: var(--red); color: white; transform: translateY(-2px); }
+
+  /* Spotify player */
+  .spotify-box {
+    display: none;
+    width: min(500px, 100%);
+    margin: 30px auto 0;
   }
 
-  .comic-l3 {
-    right: 0;
-    top: 27px;
-    transform: rotate(-25deg);
-  }
+  .spotify-box.visible { display: block; }
 
-  .comic-l4 {
-    right: 0;
-    top: 45px;
-    transform: rotate(25deg);
-  }
-
-  .comic-l5 {
-    left: 3px;
-    top: 12px;
-    transform: rotate(45deg);
-  }
-
-  .comic-l6 {
-    right: 3px;
-    top: 12px;
-    transform: rotate(-45deg);
-  }
-
-  .comic-text {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 9px;
-
-    text-align: center;
-
-    font-family: 'Bangers', cursive;
-    font-size: 16px;
-
-    color: white;
-
-    text-shadow:
-      2px 2px #000;
-  }
-
-  /* =========================
-     GIFT FOOTER
-  ========================= */
-
-  .gift-footer {
-    text-align: center;
-    margin-top: 2rem;
-  }
-
-  .gift-footer p {
-    color: #666;
-    line-height: 1.8;
-  }
-
-  .gift-footer span {
+  .spotify-box iframe {
     display: block;
-
-    margin-top: 0.5rem;
-
-    color: #dc143c;
-    font-weight: 700;
+    width: 100%;
+    height: 152px;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.45);
   }
 
-  /* =========================
-     FINAL MESSAGE
-  ========================= */
+  .open-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
 
+  .open-link {
+    padding: 9px 20px;
+    border: 1px solid #333;
+    border-radius: 999px;
+    color: #888;
+    font-family: "Bangers", cursive;
+    font-size: .85rem;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    transition: border-color .2s, color .2s;
+  }
+
+  .open-link:hover { border-color: var(--red); color: var(--red); }
+
+  /* FINAL */
   .final-section {
-    max-width: 680px;
-    margin: 0 auto;
-
-    padding: 5rem 1.5rem 7rem;
-
+    max-width: 690px;
+    margin: auto;
+    padding: 75px 18px 115px;
     text-align: center;
   }
 
   .final-section h2 {
-    font-family: 'Bangers', cursive;
-
-    color: #dc143c;
-
-    font-size: clamp(2.4rem, 7vw, 3.5rem);
+    color: var(--red);
+    font-family: "Bangers", cursive;
+    font-size: clamp(2.5rem, 8vw, 3.8rem);
     letter-spacing: 4px;
-
-    text-shadow: 3px 3px 0 #000;
-
-    margin-bottom: 1.3rem;
+    text-shadow: 4px 4px 0 #000;
   }
 
-  .final-section p {
-    color: #aaa;
+  .final-section p { max-width: 530px; margin: 18px auto 0; color: #aaa; line-height: 1.9; }
 
-    font-size: 1rem;
-    line-height: 1.9;
+  .final-heart { margin-top: 30px; color: var(--red); font-size: 2rem; animation: heartPulse 2s ease-in-out infinite; }
 
-    max-width: 520px;
-    margin: 0 auto;
-  }
+  .final-name { margin-top: 12px !important; color: var(--red) !important; }
 
-  .final-heart {
-    margin-top: 2rem;
+  /* REVEALS */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    color: #dc143c;
-
-    font-size: 2rem;
-  }
-
-  /* =========================
-     REVEALS
-  ========================= */
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-
-    transition:
-      opacity 0.9s ease,
-      transform 0.9s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* =========================
-     MOBILE
-  ========================= */
-
-  @media (max-width: 700px) {
-
-    .gift-stage {
-      height: 730px;
-
-      transform: scale(0.82);
-      transform-origin: top center;
-
-      margin-bottom: -100px;
-    }
-
-    .basket {
-      width: 430px;
-    }
-
-    .basket-handle {
-      width: 380px;
-    }
-
-    .gift-alani {
-      left: 7%;
-    }
-
-    .gift-matcha {
-      left: 27%;
-    }
-
-    .gift-lily {
-      left: 43%;
-    }
-
-    .gift-watermelon {
-      right: 20%;
-    }
-
-    .gift-music {
-      right: 4%;
-    }
-
-    .gift-movie {
-      left: 31%;
-    }
-
-    .gift-spiderman {
-      right: 28%;
-    }
-  }
-
-  @media (max-width: 480px) {
-
-    .letter-container {
-      padding: 0 1rem;
-    }
-
-    .letter-card {
-      padding: 1.7rem;
-    }
-
-    .letter-card p {
-      font-size: 1rem;
-      line-height: 1.85;
-    }
-
-    .gift-stage {
-      transform: scale(0.68);
-      transform-origin: top center;
-
-      margin-bottom: -180px;
-    }
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .password-spider { font-size: 5rem; }
+    .hero { padding: 20px; }
+    .letter-card { padding: 27px 21px; }
+    .letter-card p { font-size: 1rem; line-height: 1.85; }
+    .record-area { width: 300px; height: 315px; }
+    .vinyl { width: 245px; height: 245px; }
+    .record-label { width: 113px; height: 113px; }
+    .needle { right: 0; top: 35px; width: 85px; }
+    .youtube-box iframe { height: 200px; }
   }
 </style>
 </head>
-
 <body>
 
-<div class="floating-web web-left"></div>
-<div class="floating-web web-right"></div>
-
-<!-- =========================
-     PASSWORD
-========================= -->
-
+<!-- PASSWORD SCREEN -->
 <div id="password-screen">
 
-  <div class="password-spider">
-
-    <div class="spider-head"></div>
-    <div class="spider-body"></div>
-
-    <div class="spider-leg leg-1"></div>
-    <div class="spider-leg leg-2"></div>
-    <div class="spider-leg leg-3"></div>
-    <div class="spider-leg leg-4"></div>
-    <div class="spider-leg leg-5"></div>
-    <div class="spider-leg leg-6"></div>
-
-  </div>
+  <div class="password-spider">🕷️</div>
 
   <h1>ACCESS REQUIRED</h1>
 
   <p>
-    A little something was made for you.
-    <br>
+    A little something was made for you.<br>
     You know the password.
   </p>
 
-  <input
-    type="text"
-    id="pw-input"
-    placeholder="enter password..."
-    autocomplete="off"
-  >
+  <input id="pw-input" type="text" autocomplete="off" placeholder="enter password...">
 
   <div id="pw-error"></div>
 
-  <button id="unlock-btn" onclick="checkPassword()">
-    UNLOCK ↗
-  </button>
+  <button id="unlock-btn" onclick="checkPassword()">UNLOCK ↗</button>
 
-  <span class="hint-toggle" onclick="toggleHint()">
-    need a hint?
-  </span>
+  <span class="hint-toggle" onclick="toggleHint()">need a hint?</span>
 
   <div id="hint-text">
     Each letter of "I LOVE YOU" has a number.
@@ -1595,59 +539,25 @@
 
 </div>
 
-<!-- =========================
-     MAIN PAGE
-========================= -->
-
+<!-- MAIN -->
 <div id="letter-screen">
 
   <!-- HERO -->
-
   <section class="hero">
-
-    <div class="hero-spider">
-
-      <div class="spider-head"></div>
-      <div class="spider-body"></div>
-
-      <div class="spider-leg leg-1"></div>
-      <div class="spider-leg leg-2"></div>
-      <div class="spider-leg leg-3"></div>
-      <div class="spider-leg leg-4"></div>
-      <div class="spider-leg leg-5"></div>
-      <div class="spider-leg leg-6"></div>
-
-    </div>
-
+    <div class="hero-spider">🕷️</div>
     <h1>FOR ISABEL</h1>
-
-    <p class="hero-subtitle">
-      something I wanted to make for you
-    </p>
-
+    <p class="hero-subtitle">something I wanted to make for you</p>
     <p class="hero-note">
-      I could've just sent you a message...
-      <br>
+      I could've just sent you a message...<br>
       but that felt a little too easy.
     </p>
-
-    <div class="scroll-hint">
-      ↓ keep scrolling ↓
-    </div>
-
+    <div class="scroll-hint">↓ keep scrolling ↓</div>
   </section>
 
-  <!-- =========================
-       LETTER
-  ========================= -->
-
+  <!-- LETTER -->
   <main class="letter-container">
-
     <article class="letter-card reveal">
-
-      <div class="letter-label">
-        THREE MONTHS
-      </div>
+      <div class="letter-label">THREE MONTHS</div>
 
       <p>
         I recently learned that the parts of your brain responsible
@@ -1671,531 +581,188 @@
         let alone a lifetime.
       </p>
 
-      <p>
-        I love you so, so much &lt;3
-      </p>
+      <p>I love you so, so much &lt;3</p>
 
-      <span class="letter-heart">
-        &lt;3
-      </span>
-
+      <span class="letter-heart">&lt;3</span>
     </article>
-
   </main>
 
-  <!-- =========================
-       GIFT BASKET
-  ========================= -->
+  <!-- OUR SONG -->
+  <section class="song-section reveal">
 
-  <section class="gift-section reveal">
+    <div class="song-kicker">OUR SONG</div>
+    <h2 class="song-title">light</h2>
+    <div class="song-artist">wave to earth</div>
 
-    <div class="gift-intro">
+    <p class="song-intro">
+      I wanted to put something here that wasn't another paragraph.
+      Just something I could hear and immediately think of you.
+    </p>
 
-      <div class="gift-kicker">
-        ONE MORE THING
-      </div>
+    <div class="record-area">
+      <div class="record-shadow"></div>
 
-      <h2>
-        A LITTLE SOMETHING FOR YOU
-      </h2>
-
-      <p>
-        I wanted to put together a little gift basket for you.
-        So... I made one.
-      </p>
-
-    </div>
-
-    <div class="gift-stage">
-
-      <!-- HANDLE -->
-
-      <div class="basket-handle"></div>
-
-      <!-- ALANI -->
-
-      <button
-        class="gift-item gift-alani"
-        onclick="openGift(this)"
-        aria-label="Alani Nu gift"
-      >
-
-        <div class="alani-can">
-
-          <div class="can-top"></div>
-
-          <div class="can-body">
-
-            <span class="can-brand">
-              ALANI
-            </span>
-
-            <span class="can-flavor">
-              NU
-            </span>
-
-            <span class="can-small">
-              ENERGY
-            </span>
-
-          </div>
-
-          <div class="can-bottom"></div>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Alani Nu
-          </strong>
-
-          <span>
-            because I already know you'd want one in there.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- MATCHA -->
-
-      <button
-        class="gift-item gift-matcha"
-        onclick="openGift(this)"
-        aria-label="Matcha gift"
-      >
-
-        <div class="matcha-cup">
-
-          <div class="matcha-liquid"></div>
-          <div class="matcha-foam"></div>
-          <div class="matcha-cup-body"></div>
-          <div class="matcha-handle"></div>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Matcha
-          </strong>
-
-          <span>
-            somehow matcha is basically part of the Isabel starter pack.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- LILY -->
-
-      <button
-        class="gift-item gift-lily"
-        onclick="openGift(this)"
-        aria-label="Lily flower gift"
-      >
-
-        <div class="lily-flower">
-
-          <span class="petal p1"></span>
-          <span class="petal p2"></span>
-          <span class="petal p3"></span>
-          <span class="petal p4"></span>
-          <span class="petal p5"></span>
-
-          <span class="lily-center"></span>
-          <span class="lily-stem"></span>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Lilies
-          </strong>
-
-          <span>
-            your favorite flower. Obviously this one had to be here.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- WATERMELON -->
-
-      <button
-        class="gift-item gift-watermelon"
-        onclick="openGift(this)"
-        aria-label="Watermelon gift"
-      >
-
-        <div class="watermelon-slice">
-
-          <div class="watermelon-rind"></div>
-
-          <span class="seed s1"></span>
-          <span class="seed s2"></span>
-          <span class="seed s3"></span>
-          <span class="seed s4"></span>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Watermelon
-          </strong>
-
-          <span>
-            one of your many very correct opinions.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- BAD BUNNY / MUSIC -->
-
-      <button
-        class="gift-item gift-music"
-        onclick="openGift(this)"
-        aria-label="Music gift"
-      >
-
-        <div class="record">
-
-          <div class="record-label">
-            BB
-          </div>
-
+      <div id="vinyl" class="vinyl">
+        <div class="record-label">
+          <img
+            src="wavetoearth.avif"
+            alt="wave to earth - light album cover"
+            onerror="this.style.background='#1a3a5c';"
+          >
           <div class="record-hole"></div>
-
         </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Bad Bunny
-          </strong>
-
-          <span>
-            because obviously there needs to be music somewhere in here.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- LA LA LAND -->
-
-      <button
-        class="gift-item gift-movie"
-        onclick="openGift(this)"
-        aria-label="La La Land gift"
-      >
-
-        <div class="movie-ticket">
-
-          <div class="ticket-top">
-            ADMIT ONE
-          </div>
-
-          <div class="ticket-title">
-            LA LA<br>LAND
-          </div>
-
-          <div class="ticket-bottom">
-            ★ ★ ★
-          </div>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            La La Land
-          </strong>
-
-          <span>
-            because this one is unmistakably you.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- SPIDER-MAN -->
-
-      <button
-        class="gift-item gift-spiderman"
-        onclick="openGift(this)"
-        aria-label="Spider-Man gift"
-      >
-
-        <div class="comic-card">
-
-          <div class="spider-symbol">
-
-            <span class="body"></span>
-
-            <span class="comic-leg comic-l1"></span>
-            <span class="comic-leg comic-l2"></span>
-            <span class="comic-leg comic-l3"></span>
-            <span class="comic-leg comic-l4"></span>
-            <span class="comic-leg comic-l5"></span>
-            <span class="comic-leg comic-l6"></span>
-
-          </div>
-
-          <div class="comic-text">
-            THWIP!
-          </div>
-
-        </div>
-
-        <div class="gift-note">
-
-          <strong>
-            Spider-Man
-          </strong>
-
-          <span>
-            I mean... I couldn't possibly leave this one out.
-          </span>
-
-        </div>
-
-      </button>
-
-      <!-- ACTUAL BASKET -->
-
-      <div class="basket">
-
-        <div class="basket-rim"></div>
-
+        <div class="record-glint"></div>
       </div>
 
+      <div class="record-glow"></div>
+
+      <div class="needle">
+        <div class="needle-head"></div>
+      </div>
     </div>
 
-    <div class="gift-footer">
+    <p class="song-message">
+      I think this song is going to remind me of you
+      for a really, really long time.
+    </p>
 
-      <p>
-        I know it's not exactly the same as handing you a real one...
-      </p>
+    <div class="song-action">
+      <button id="song-play-btn" class="song-play-btn" onclick="startSong()">
+        ▶ PLAY OUR SONG
+      </button>
+    </div>
 
-      <span>
-        but I'll make up for that part. ❤️
-      </span>
-
+    <!-- Spotify embed — hidden until button is pressed -->
+    <div class="spotify-box" id="spotify-box">
+      <iframe
+        id="spotify-player"
+        src=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      ></iframe>
+      <div class="open-links">
+        <a href="https://www.youtube.com/watch?v=uzFyx1glMyA" target="_blank" class="open-link">▶ Open in YouTube</a>
+        <a href="https://open.spotify.com/track/70WSsjbEWvU96Ia9AuO9w3" target="_blank" class="open-link">♫ Open in Spotify</a>
+      </div>
     </div>
 
   </section>
 
-  <!-- =========================
-       FINAL MESSAGE
-  ========================= -->
-
+  <!-- FINAL -->
   <section class="final-section reveal">
-
-    <h2>
-      HAPPY THREE MONTHS
-    </h2>
+    <h2>HAPPY THREE MONTHS</h2>
 
     <p>
       Three months might sound small when you compare it to a lifetime.
       But somehow, you've become such a big part of mine already.
     </p>
 
-    <p style="margin-top: 1rem;">
+    <p>
       Whatever the future ends up looking like,
       I'm really glad you're part of it.
     </p>
 
-    <div class="final-heart">
-      &lt;3
-    </div>
-
-    <p style="margin-top: 1.2rem; color: #dc143c;">
-      — Caleb
-    </p>
-
+    <div class="final-heart">&lt;3</div>
+    <p class="final-name">— Caleb</p>
   </section>
 
 </div>
 
 <script>
-
-  /* =========================
-     PASSWORD
-  ========================= */
-
-  const PASSWORD = "912151222525152 1";
+  /* PASSWORD */
+  const PASSWORD = "9 12 15 22 5 25 15 21";
 
   function normalizeInput(value) {
-    return value
-      .replace(/\s+/g, '')
-      .toLowerCase();
+    return value.replace(/\s+/g, "").toLowerCase();
   }
 
   function checkPassword() {
-
-    const input = document.getElementById('pw-input');
-    const error = document.getElementById('pw-error');
-
+    const input = document.getElementById("pw-input");
+    const error = document.getElementById("pw-error");
     const entered = normalizeInput(input.value);
     const correct = normalizeInput(PASSWORD);
 
     if (entered === correct) {
-
-      const passwordScreen =
-        document.getElementById('password-screen');
-
-      passwordScreen.classList.add('hidden');
-
+      const screen = document.getElementById("password-screen");
+      screen.classList.add("hidden");
       setTimeout(() => {
-
-        passwordScreen.style.display = 'none';
-
-        document.getElementById('letter-screen').style.display = 'block';
-
+        screen.style.display = "none";
+        document.getElementById("letter-screen").style.display = "block";
         initializeRevealAnimations();
-
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
-
+        window.scrollTo({ top: 0, behavior: "instant" });
       }, 800);
-
     } else {
-
-      error.textContent =
-        "that's not it, Isabel. try again.";
-
-      input.style.borderColor = '#ff4b6e';
-
+      error.textContent = "that's not it, Isabel. try again.";
+      input.style.borderColor = "#ff5874";
       input.animate(
         [
-          { transform: 'translateX(0)' },
-          { transform: 'translateX(-5px)' },
-          { transform: 'translateX(5px)' },
-          { transform: 'translateX(-3px)' },
-          { transform: 'translateX(0)' }
+          { transform: "translateX(0)" },
+          { transform: "translateX(-6px)" },
+          { transform: "translateX(6px)" },
+          { transform: "translateX(-4px)" },
+          { transform: "translateX(0)" }
         ],
-        {
-          duration: 350
-        }
+        { duration: 360 }
       );
-
       setTimeout(() => {
-
-        error.textContent = '';
-        input.style.borderColor = '#333';
-
+        error.textContent = "";
+        input.style.borderColor = "#333";
       }, 2000);
     }
-
   }
 
-  document
-    .getElementById('pw-input')
-    .addEventListener('keydown', function(event) {
+  document.getElementById("pw-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkPassword();
+  });
 
-      if (event.key === 'Enter') {
-        checkPassword();
-      }
-
-    });
-
-  /* =========================
-     HINT
-  ========================= */
-
+  /* HINT */
   function toggleHint() {
-
-    const hint =
-      document.getElementById('hint-text');
-
-    if (hint.style.display === 'block') {
-
-      hint.style.display = 'none';
-
-    } else {
-
-      hint.style.display = 'block';
-
-    }
-
+    const hint = document.getElementById("hint-text");
+    hint.style.display = hint.style.display === "block" ? "none" : "block";
   }
 
-  /* =========================
-     SCROLL REVEALS
-  ========================= */
-
+  /* SCROLL REVEALS */
   function initializeRevealAnimations() {
-
-    const elements =
-      document.querySelectorAll('.reveal');
-
-    const observer =
-      new IntersectionObserver(
-
-        entries => {
-
-          entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-              entry.target.classList.add('visible');
-
-            }
-
-          });
-
-        },
-
-        {
-          threshold: 0.12
-        }
-
-      );
-
-    elements.forEach(element => {
-
-      observer.observe(element);
-
-    });
-
+    const elements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.12 }
+    );
+    elements.forEach(el => observer.observe(el));
   }
 
-  /* =========================
-     GIFT INTERACTION
-  ========================= */
+  /* SONG */
+  let songStarted = false;
 
-  function openGift(item) {
+  function startSong() {
+    if (songStarted) return;
+    songStarted = true;
 
-    const alreadyOpen =
-      item.classList.contains('open');
+    // Spin the vinyl
+    const vinyl = document.getElementById("vinyl");
+    vinyl.classList.add("playing");
 
-    document
-      .querySelectorAll('.gift-item')
-      .forEach(gift => {
+    // Update button
+    const button = document.getElementById("song-play-btn");
+    button.textContent = "♫ NOW PLAYING";
+    button.style.opacity = "0.5";
+    button.style.cursor = "default";
 
-        gift.classList.remove('open');
+    // Show Spotify embed and set src (autoplay=1 in URL)
+    const box = document.getElementById("spotify-box");
+    const iframe = document.getElementById("spotify-player");
+    iframe.src = "https://open.spotify.com/embed/track/70WSsjbEWvU96Ia9AuO9w3?utm_source=generator&autoplay=1";
+    box.classList.add("visible");
 
-      });
-
-    if (!alreadyOpen) {
-
-      item.classList.add('open');
-
-    }
-
+    // Smooth scroll to player
+    setTimeout(() => {
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 200);
   }
-
 </script>
 
 </body>
