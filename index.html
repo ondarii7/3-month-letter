@@ -758,30 +758,30 @@
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       const ctx = new AudioCtx();
-      const duration = 0.45; // seconds
+        const duration = 0.35; // seconds (shorter)
       const now = ctx.currentTime;
 
-      // create decaying white-noise burst for a vinyl-like pop
+        // create decaying low-amplitude white-noise burst for a softer pop
       const bufferSize = Math.floor(ctx.sampleRate * duration);
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        // random noise that decays over time
-        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+          // scaled-down random noise that decays over time
+          data[i] = ((Math.random() * 2 - 1) * 0.22) * (1 - i / bufferSize);
       }
       const noise = ctx.createBufferSource();
       noise.buffer = buffer;
 
-      // gentle lowpass to make it feel vinyl-y
+        // gentle lowpass to make it feel vinyl-y (lower cutoff)
       const lp = ctx.createBiquadFilter();
       lp.type = 'lowpass';
-      lp.frequency.setValueAtTime(2200, now);
+        lp.frequency.setValueAtTime(1200, now);
 
-      // quick gain envelope
+        // quick, lower gain envelope for a softer result
       const g = ctx.createGain();
-      g.gain.setValueAtTime(0.001, now);
-      g.gain.exponentialRampToValueAtTime(0.8, now + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        g.gain.setValueAtTime(0.0005, now);
+        g.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0005, now + duration);
 
       noise.connect(lp).connect(g).connect(ctx.destination);
       noise.start(now);
