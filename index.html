@@ -754,92 +754,7 @@
   }
 
   /* SONG */
-  function playRevealSound() {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioCtx();
-      const totalDur = 0.7; // overall fadeout
-      const now = ctx.currentTime;
-
-      // master gain (louder than before, but overall soft)
-      const master = ctx.createGain();
-      master.gain.setValueAtTime(0.0001, now);
-      master.gain.linearRampToValueAtTime(0.6, now + 0.02);
-      master.gain.exponentialRampToValueAtTime(0.0001, now + totalDur);
-      master.connect(ctx.destination);
-
-      // background soft wash (low, filtered noise)
-      (function(){
-        const washDur = 0.6;
-        const bufSize = Math.floor(ctx.sampleRate * washDur);
-        const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
-        const data = buf.getChannelData(0);
-        for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * 0.12 * (1 - i / bufSize);
-        const src = ctx.createBufferSource();
-        src.buffer = buf;
-        const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.setValueAtTime(900, now);
-        const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, now); g.gain.linearRampToValueAtTime(0.12, now + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, now + washDur);
-        src.connect(lp).connect(g).connect(master);
-        src.start(now);
-        src.stop(now + washDur);
-      })();
-
-      // confetti-like small bursts: multiple short filtered noise taps with stereo spread
-      const taps = 10;
-      for (let i = 0; i < taps; i++) {
-        const jitter = (Math.random() - 0.4) * 0.06; // small timing jitter
-        const start = now + 0.02 + i * 0.04 + jitter;
-        const len = 0.08 + Math.random() * 0.06;
-        const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * len), ctx.sampleRate);
-        const d = buf.getChannelData(0);
-        for (let k = 0; k < d.length; k++) {
-          // more high-frequency content for sparkle
-          d[k] = (Math.random() * 2 - 1) * (1 - k / d.length) * (0.6 + Math.random() * 0.8);
-        }
-        const src = ctx.createBufferSource(); src.buffer = buf;
-
-        // gentle highpass to remove low thump, and bandpass for sparkle
-        const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.setValueAtTime(450 + Math.random() * 800, start);
-        const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.setValueAtTime(2500 + Math.random() * 4500, start); bp.Q.setValueAtTime(0.8 + Math.random() * 1.2, start);
-
-        // per-tap gain envelope
-        const g = ctx.createGain();
-        const peak = 0.06 + Math.random() * 0.18; // per-tap level
-        g.gain.setValueAtTime(0.0001, start);
-        g.gain.linearRampToValueAtTime(peak, start + 0.008);
-        g.gain.exponentialRampToValueAtTime(0.0001, start + len);
-
-        // stereo spread
-        const p = ctx.createStereoPanner();
-        p.pan.setValueAtTime((i % 2 === 0 ? -1 : 1) * (0.25 + Math.random() * 0.7), start);
-
-        src.connect(hp).connect(bp).connect(g).connect(p).connect(master);
-        src.start(start);
-        src.stop(start + len);
-      }
-
-      // small metallic sparkle overlay (short bandpass chirp)
-      (function(){
-        const oscDur = 0.22;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.setValueAtTime(4200, now + 0.06);
-        gain.gain.setValueAtTime(0.0001, now + 0.06);
-        gain.gain.linearRampToValueAtTime(0.06, now + 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06 + oscDur);
-        osc.frequency.setValueAtTime(2800, now + 0.06);
-        osc.connect(bp).connect(gain).connect(master);
-        osc.start(now + 0.06);
-        osc.stop(now + 0.06 + oscDur);
-      })();
-
-      // Auto-close context after everything finishes
-      setTimeout(() => { try { ctx.close(); } catch (e) {} }, (totalDur + 0.2) * 1000);
-    } catch (e) {
-      console.warn('AudioContext not available', e);
-    }
-  }
+  /* reveal sound removed */
 
   let songStarted = false;
 
@@ -875,9 +790,6 @@
   if (revealBtn && songSection) {
     revealBtn.addEventListener('click', () => {
       revealBtn.disabled = true;
-      // Play a short reveal sound (synthesized) — user gesture ensures playback
-      playRevealSound();
-
       // Animate button out then hide it
       const outAnim = revealBtn.animate(
         [
