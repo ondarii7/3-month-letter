@@ -761,7 +761,7 @@
         // start typewriter on the first message once visible
         startTypewriter();
         window.scrollTo({ top: 0, behavior: "instant" });
-      }, 800);
+            }, 450);
     } else {
       error.textContent = "that's not it, Isabel. try again.";
       input.style.borderColor = "#ff5874";
@@ -817,19 +817,19 @@
       const ctx = canvas.getContext('2d');
       const colors = ['#ff4d6d','#ffd166','#06d6a0','#4d8bfd','#9a6cff'];
       const pieces = [];
-      const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 8000));
+            const count = Math.min(40, Math.floor((canvas.width * canvas.height) / 14000));
       for (let i = 0; i < count; i++) {
         pieces.push({
           x: Math.random() * canvas.width,
-          y: Math.random() * -canvas.height * 0.2,
-          w: 6 + Math.random() * 8,
-          h: 8 + Math.random() * 10,
-          vx: (Math.random() - 0.5) * 2.4,
-          vy: 2 + Math.random() * 3.5,
+                y: Math.random() * -canvas.height * 0.12,
+                w: 6 + Math.random() * 6,
+                h: 8 + Math.random() * 6,
+                vx: (Math.random() - 0.5) * 2.6,
+                vy: 2 + Math.random() * 3.2,
           r: Math.random() * Math.PI,
-          vr: (Math.random() - 0.5) * 0.3,
+                vr: (Math.random() - 0.5) * 0.25,
           color: colors[Math.floor(Math.random() * colors.length)],
-          tilt: Math.random() * 0.6 - 0.3
+                tilt: Math.random() * 0.5 - 0.25
         });
       }
 
@@ -838,9 +838,9 @@
         const dt = (now - t0) / 1000; t0 = now;
         ctx.clearRect(0,0,canvas.width,canvas.height);
         for (let p of pieces) {
-          p.x += p.vx * (1 + Math.random() * 0.6);
-          p.y += p.vy * (1 + Math.random() * 0.6);
-          p.vy += 0.02; // gravity
+                p.x += p.vx * (1 + Math.random() * 0.4);
+                p.y += p.vy * (1 + Math.random() * 0.4);
+                p.vy += 0.03; // gravity slightly stronger for faster fall
           p.r += p.vr;
           ctx.save();
           ctx.translate(p.x, p.y);
@@ -849,14 +849,14 @@
           ctx.fillRect(-p.w/2 + p.tilt*6, -p.h/2, p.w, p.h);
           ctx.restore();
         }
-        // stop after ~1.2s and fade out
-        if (now - startTime < 1200) {
+              // stop after ~800ms and fade out quickly
+              if (now - startTime < 800) {
           anim = requestAnimationFrame(frame);
         } else {
           // fade and remove
-          canvas.style.transition = 'opacity 500ms ease';
+                canvas.style.transition = 'opacity 300ms ease';
           canvas.style.opacity = '0';
-          setTimeout(() => { try { cancelAnimationFrame(anim); if (canvas.parentNode) canvas.parentNode.removeChild(canvas); } catch(e){} }, 500);
+                setTimeout(() => { try { cancelAnimationFrame(anim); if (canvas.parentNode) canvas.parentNode.removeChild(canvas); } catch(e){} }, 300);
         }
       }
       let anim; const startTime = performance.now();
@@ -866,7 +866,7 @@
       const onResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
       window.addEventListener('resize', onResize);
       // cleanup after finished
-      setTimeout(() => { window.removeEventListener('resize', onResize); }, 2000);
+            setTimeout(() => { window.removeEventListener('resize', onResize); }, 1500);
     } catch (e) {
       // fail silently
       console.warn('confetti failed', e);
@@ -901,7 +901,7 @@
     // Smooth scroll to player
     setTimeout(() => {
       box.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 200);
+    }, 30);
   }
 
   // Typewriter setup for the first message (letter-card)
@@ -948,11 +948,11 @@
       const text = p.dataset.original || '';
       await new Promise(res => {
         let i = 0;
-        const speed = 20 + Math.random() * 30; // ms per char
+          const speed = 8 + Math.random() * 10; // faster: 8-18 ms per char
         _currentIv = setInterval(() => {
           p.textContent += text.charAt(i);
           i++;
-          if (i >= text.length) { clearInterval(_currentIv); _currentIv = null; p.classList.remove('typing'); setTimeout(res, 200); }
+            if (i >= text.length) { clearInterval(_currentIv); _currentIv = null; p.classList.remove('typing'); setTimeout(res, 80); }
         }, speed);
       });
       if (!typingActive) break;
@@ -971,9 +971,9 @@
       const outAnim = revealBtn.animate(
         [
           { transform: 'scale(1)', opacity: 1 },
-          { transform: 'scale(1.08)', opacity: 0 }
+                { transform: 'scale(1.06)', opacity: 0 }
         ],
-        { duration: 300, easing: 'ease' }
+              { duration: 160, easing: 'ease' }
       );
       outAnim.onfinish = () => {
         revealBtn.style.display = 'none';
@@ -1005,7 +1005,7 @@
       const out = timelineBtn.animate([
             { transform: 'scale(1)', opacity: 1 },
             { transform: 'scale(1.06)', opacity: 0 }
-      ], { duration: 280, easing: 'ease' });
+      ], { duration: 140, easing: 'ease' });
       out.onfinish = () => { timelineBtn.style.display = 'none'; };
 
       timelineSection.classList.remove('hidden');
@@ -1017,7 +1017,7 @@
             // animate timeline items in sequence
             const items = timelineSection.querySelectorAll('.timeline-list li');
             items.forEach((li, idx) => {
-              setTimeout(() => li.classList.add('visible'), idx * 120);
+              setTimeout(() => li.classList.add('visible'), idx * 50);
             });
       });
 
@@ -1028,7 +1028,7 @@
               final.classList.remove('hidden');
               final.classList.add('reveal');
               requestAnimationFrame(() => final.classList.add('visible'));
-            }, 120 * (Math.min(10, timelineSection.querySelectorAll('.timeline-list li').length) + 1));
+            }, 50 * (Math.min(10, timelineSection.querySelectorAll('.timeline-list li').length) + 1));
       }
     });
   }
