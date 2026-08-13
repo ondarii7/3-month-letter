@@ -493,8 +493,9 @@
   .final-name { margin-top: 12px !important; color: var(--red) !important; }
 
   /* REVEALS */
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+    .song-section.hidden { display: none; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform .95s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* MOBILE */
   @media (max-width: 600px) {
@@ -582,13 +583,14 @@
       </p>
 
       <p>I love you so, so much &lt;3</p>
-
-      <span class="letter-heart">&lt;3</span>
     </article>
   </main>
 
   <!-- OUR SONG -->
-  <section class="song-section reveal">
+  <div style="text-align:center; margin: 28px 0 8px;">
+    <button id="reveal-song-btn" class="song-play-btn">REVEAL OUR SONG</button>
+  </div>
+  <section id="song-section" class="song-section hidden">
 
     <div class="song-kicker">OUR SONG</div>
     <h2 class="song-title">light</h2>
@@ -661,8 +663,6 @@
       Whatever the future ends up looking like,
       I'm really glad you're part of it.
     </p>
-
-    <div class="final-heart">&lt;3</div>
     <p class="final-name">— Caleb</p>
   </section>
 
@@ -762,6 +762,23 @@
     setTimeout(() => {
       box.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 200);
+  }
+
+  // Reveal button logic
+  const revealBtn = document.getElementById('reveal-song-btn');
+  const songSection = document.getElementById('song-section');
+  if (revealBtn && songSection) {
+    revealBtn.addEventListener('click', () => {
+      revealBtn.disabled = true;
+      revealBtn.style.opacity = '0.6';
+      // Unhide and animate the song section
+      songSection.classList.remove('hidden');
+      songSection.classList.add('reveal');
+      requestAnimationFrame(() => {
+        songSection.classList.add('visible');
+        songSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
   }
 </script>
 
